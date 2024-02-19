@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\setlength{\pdfpagewidth}{8.5in} \setlength{\pdfpageheight}{11in}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{adjustbox}
+\begin{document}
+\begin{table}[t]
+\centering
+\begin{tabular}{l ccc}
+\toprule \toprule
+ & \multicolumn{3}{c}{\bf{Panel A: Speakers}} \\[2mm]
+ & Before & During & After \\
+\midrule
+ Hits & 42.94 & 315.31 & 42.92\\
+ & (61.00) & (502.41) & (88.32) \\[2mm]
+\midrule
+ Difference & -272.37 &  & -272.39\\
+ P-value & 0.00 &  & 0.00\\
+ N &  86 & 113 &  98 \\
+\midrule\midrule
+ & \multicolumn{3}{c}{\bf{Panel B: Minority Leaders}} \\[2mm]
+ Hits & 23.75 & 139.67 & 47.74\\
+ & (31.96) & (106.14) & (75.72) \\[2mm]
+\midrule
+ Difference & -115.92 &  & -91.93\\
+ P-value & 0.00 &  & 0.00\\
+ N &  20 &  30 &  23 \\
+\bottomrule \bottomrule
+\multicolumn{4}{p{.4\textwidth}}{Standard deviations are reported in parentheses. The pre and post-Speaker 
+ periods are based on 5 years before and after the Speaker term. }\\
+\end{tabular}
+\end{table}
+\end{document}

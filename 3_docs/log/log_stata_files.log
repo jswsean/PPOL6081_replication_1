@@ -1,0 +1,1942 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ opened on:  19 Apr 2017, 14:53:23
+
+. 
+. ********************************************************************************
+. * This do-file produces the files to replicates the main tables and figures
+. * in "How Newspapers Reveal Political Power" (Ban, Fouirnaies, Hall, Snyder)
+. *
+. *
+. * -- Produces the .tex files for the following tables:
+. *               Table 1: News Coverage Before, During, and After Leadership Term
+. *               Table 2: Impact of Switch from Mayor-Countil to Council-Manager
+. *                                City Government (also Table A.4)
+. *
+. * -- Produces the .dta files to be used to plot figures; next step in R with
+. *        the code make_file_graphs.R
+. *
+. * November 20, 2016
+. ********************************************************************************
+. 
+. 
+. set more off
+
+. 
+. local make_committees   = 1
+
+. local make_leader               = 1
+
+. local make_mayors               = 1
+
+. local make_rtaa                 = 1
+
+. local make_party_committee = 1
+
+. 
+. 
+. 
+. ********************************************************************************
+. * Committee Rankings, 1949-1973
+. ********************************************************************************
+. 
+. 
+. if `make_committees'==1 {
+. 
+.         use hits_housecommittees.dta, clear
+.         keep if year>=1949 & year<=1973
+(76 observations deleted)
+.         collapse (sum) agriculture appropriations armed_services banking education energy foreign_affairs government_operations house_administration judiciary merchant_marine natural_resources post_office public_works rules science standards_of_official
+> _conduct veterans_affairs ways_and_means
+. 
+.         egen total_hits = rowtotal(agriculture appropriations armed_services banking education energy foreign_affairs government_operations house_administration judiciary merchant_marine natural_resources post_office public_works rules science standards
+> _of_official_conduct veterans_affairs ways_and_means)
+.         
+.         rename agriculture c_agriculture
+.         rename appropriations c_appropriations
+.         rename armed_services c_armed_services
+.         rename banking c_banking
+.         rename education c_education
+.         rename energy c_energy
+.         rename foreign_affairs c_foreign_affairs
+.         rename government_operations c_government_operations
+.         rename house_administration c_house_administration
+.         rename judiciary c_judiciary
+.         rename merchant_marine c_merchant_marine
+.         rename natural_resources c_natural_resources
+.         rename post_office c_post_office
+.         rename public_works c_public_works
+.         rename rules c_rules
+.         rename science c_science
+.         rename standards_of_official_conduct c_standards_of_official_conduct
+.         rename veterans_affairs c_veterans_affairs
+.         rename ways_and_means c_ways_and_means
+.         
+.         reshape long c_, i(total_hits) j(committee) string
+(note: j = agriculture appropriations armed_services banking education energy foreign_affairs government_operations house_administration judiciary merchant_marine natural_resources post_office public_works rules science standards_of_official_conduct veter
+> ans_affairs ways_and_means)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                        1   ->      19
+Number of variables                  20   ->       3
+j variable (19 values)                    ->   committee
+xij variables:
+c_agriculture c_appropriations ... c_ways_and_means->c_
+-----------------------------------------------------------------------------
+.         
+.         replace c_ = c_/total_hits
+(19 real changes made)
+.         rename c_ rel_hits
+.         drop total_hits
+.         
+.         gsort -rel_hits
+.         gen rank = _n
+.         
+.         replace committee = subinstr(committee,"_"," ",.)
+(11 real changes made)
+.         replace committee = upper(committee)
+(19 real changes made)
+.         replace committee = "ENERGY AND COMMERCE" if committee=="ENERGY"
+(1 real change made)
+.         replace committee = "EDUCATION AND LABOR" if committee=="EDUCATION"
+(1 real change made)
+.         keep committee rank
+.         sort committee
+.         
+.         tempfile committee
+.         save `committee', replace
+(note: file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000001 not found)
+file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000001 saved
+.         
+.         import delimited "groseclose_stewart_81st_93rd.csv", varnames(1) clear
+(2 vars, 19 obs)
+.         replace committee = upper(committee)
+(19 real changes made)
+.         rename rank GS_rank
+.         merge 1:1 committee using `committee'
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                19  (_merge==3)
+    -----------------------------------------
+.         
+.         drop _merge
+.         
+.         corr rank GS_rank
+(obs=19)
+
+             |     rank  GS_rank
+-------------+------------------
+        rank |   1.0000
+     GS_rank |   0.7404   1.0000
+
+.         
+.         export delimited using "for_committees_r_graph.csv", replace
+(note: file for_committees_r_graph.csv not found)
+file for_committees_r_graph.csv saved
+. }
+
+. 
+. 
+. *****************************************************************************************
+. * News Coverage of Speakers of the House, Before, During, and After Speakership
+. * Table 1: News Coverage Before, During, and After Leadership Term
+. *****************************************************************************************
+. 
+. if `make_leader'==1 {
+. 
+.         *Table comparing means
+.         use hits_leadernames, clear
+.         collapse (sum) randall keifer carlisle reed     crisp henderson cannon clark gillett longworth  garner rainey byrns     bankhead rayburn martin mccormack albert halleck garrett snell mann, by(year)
+.         qui foreach var in randall keifer carlisle reed crisp henderson cannon clark gillett longworth  garner rainey byrns     bankhead rayburn martin mccormack albert halleck garrett snell mann {
+.         reshape long hits, i(year) j(name) string
+(note: j = albert bankhead byrns cannon carlisle clark crisp garner garrett gillett halleck henderson keifer longworth mann martin mccormack rainey randall rayburn reed snell)
+
+Data                               wide   ->   long
+-----------------------------------------------------------------------------
+Number of obs.                      293   ->    6446
+Number of variables                  23   ->       3
+j variable (22 values)                    ->   name
+xij variables:
+  hitsalbert hitsbankhead ... hitssnell   ->   hits
+-----------------------------------------------------------------------------
+.         gen period = .
+(6,446 missing values generated)
+.         replace period=1 if year>=1871 & year<1876 & name=="randall"
+(5 real changes made)
+.         replace period=2 if year>=1876 & year<=1881 & name=="randall"
+(6 real changes made)
+.         replace period=3 if year > 1881 & year<=1886 & name=="randall"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1876 & year<1881 & name=="keifer"
+(5 real changes made)
+.         replace period=2 if year>=1881 & year<=1883 & name=="keifer"
+(3 real changes made)
+.         replace period=3 if year > 1881 & year<=1886 & name=="keifer"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1878 & year<1883 & name=="carlisle"
+(5 real changes made)
+.         replace period=2 if year>=1883 & year<=1889 & name=="carlisle"
+(7 real changes made)
+.         replace period=3 if year > 1889 & year<=1894 & name=="carlisle"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1884 & year<1889 & name=="reed"
+(5 real changes made)
+.         replace period=2 if ([year>=1889 & year<=1891] | [year>=1895 & year<=1899]) & name=="reed"
+(8 real changes made)
+.         replace period=3 if ([year>1899 & year<=1904] | [year>1891 & year<1895]) & name=="reed"
+(8 real changes made)
+.         
+.         replace period=1 if year>=1886 & year<1891 & name=="crisp"
+(5 real changes made)
+.         replace period=2 if year>=1891 & year<=1895 & name=="crisp"
+(5 real changes made)
+.         replace period=3 if year>1895 & year<=1900 & name=="crisp"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1898 & year<1903 & name=="henderson"
+(5 real changes made)
+.         replace period=2 if year>=1899 & year<=1903 & name=="henderson"
+(5 real changes made)
+.         replace period=3 if year>1903 & year<=1908 & name=="henderson"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1898 & year<1903 & name=="cannon"
+(5 real changes made)
+.         replace period=2 if year>=1903 & year<=1911 & name=="cannon"
+(9 real changes made)
+.         replace period=3 if year>1911 & year<=1916 & name=="cannon"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1906 & year<1911 & name=="clark"
+(5 real changes made)
+.         replace period=2 if year>=1911 & year<=1919 & name=="clark"
+(9 real changes made)
+.         replace period=3 if year>1919 & year<=1924 & name=="clark"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1914 & year<1919 & name=="gillett"
+(5 real changes made)
+.         replace period=2 if year>=1919 & year<=1925 & name=="gillett"
+(7 real changes made)
+.         replace period=3 if year > 1925 & year<=1930 & name=="gillett"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1922 & year<1927 & name=="longworth"
+(5 real changes made)
+.         replace period=2 if year>=1927 & year<=1929 & name=="longworth"
+(3 real changes made)
+.         replace period=3 if year > 1929 & year<=1934 & name=="longworth"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1926 & year<1931 & name=="garner"
+(5 real changes made)
+.         replace period=2 if year>=1931 & year<=1933 & name=="garner"
+(3 real changes made)
+.         replace period=3 if year > 1933 & year<=1938 & name=="garner"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1928 & year<1933 & name=="rainey"
+(5 real changes made)
+.         replace period=2 if year>=1933 & year<=1934 & name=="rainey"
+(2 real changes made)
+.         replace period=3 if year > 1934 & year<=1939 & name=="rainey"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1930 & year<1935 & name=="byrns"
+(5 real changes made)
+.         replace period=2 if year>=1935 & year<=1936 & name=="byrns"
+(2 real changes made)
+.         replace period=3 if year > 1936 & year<=1941 & name=="byrns"
+(5 real changes made)
+.         
+.         
+.         replace period=1 if year>=1931 & year<1936 & name=="bankhead"
+(5 real changes made)
+.         replace period=2 if year>=1936 & year<=1940 & name=="bankhead"
+(5 real changes made)
+.         replace period=3 if year > 1940 & year<=1945 & name=="bankhead"
+(5 real changes made)
+.         
+.         
+.         replace period=1 if year>=1935 & year<1940 & name=="rayburn"
+(5 real changes made)
+.         replace period=2 if ([year>=1940 & year<=1947] | [year>=1949 & year<=1953] | [year>=1955 & year<=1961]) & name=="rayburn"
+(20 real changes made)
+.         replace period=3 if ([year>1947 & year<=1949] | [year>1953 & year<1955] | [year>1961 & year<1966]) & name=="rayburn"
+(7 real changes made)
+.         
+.         
+.         replace period=1 if year>=1884 & year<1889 & name=="martin"
+(5 real changes made)
+.         replace period=2 if ([year>=1947 & year<=1949] | [year>=1953 & year<=1955]) & name=="martin"
+(6 real changes made)
+.         replace period=3 if ([year>1949 & year<=1953] | [year>1955 & year<1960]) & name=="martin"
+(8 real changes made)
+.         
+.         replace period=1 if year>=1957 & year<1962 & name=="mccormack"
+(5 real changes made)
+.         replace period=2 if year>=1962 & year<=1971 & name=="mccormack"
+(10 real changes made)
+.         replace period=3 if year > 1971 & year<=1976 & name=="mccormack"
+(5 real changes made)
+.         
+.         replace period=1 if year>=1966 & year<1971 & name=="albert"
+(5 real changes made)
+.         replace period=2 if year>=1971 & year<=1977 & name=="albert"
+(7 real changes made)
+.         replace period=3 if year > 1977 & year<=1982 & name=="albert"
+(5 real changes made)
+.         
+.         *minority leader
+.         
+.         replace period=4 if year>=1906 & year<1911 & name=="mann"
+(5 real changes made)
+.         replace period=5 if year>=1911 & year<=1919 & name=="mann"
+(9 real changes made)
+.         replace period=6 if year>1919 & year<=1924 & name=="mann"
+(5 real changes made)
+.         
+.         replace period=4 if year>=1926 & year<1931 & name=="snell"
+(5 real changes made)
+.         replace period=5 if year>=1931 & year<=1939 & name=="snell"
+(9 real changes made)
+.         replace period=6 if year>1939 & year<=1944 & name=="snell"
+(5 real changes made)
+.         
+.         replace period=4 if year>=1918 & year<1923 & name=="garrett"
+(5 real changes made)
+.         replace period=5 if year>=1923 & year<=1929 & name=="garrett"
+(7 real changes made)
+.         replace period=6 if year>1929 & year<=1934 & name=="garrett"
+(5 real changes made)
+.         
+.         replace period=4 if year>=1884 & year<1889 & name=="halleck"
+(5 real changes made)
+.         replace period=5 if ([year>=1947 & year<=1949] | [year>=1953 & year<=1955]) & name=="halleck"
+(6 real changes made)
+.         replace period=6 if ([year>1949 & year<=1953] | [year>1955 & year<1960]) & name=="halleck"
+(8 real changes made)
+.         
+.         
+.         drop if period==.
+(6,076 observations deleted)
+.         sort year
+.         bysort period name: egen rank=rank(_n)
+.         drop year
+.         reshape wide hits, i(rank name) j(period)
+(note: j = 1 2 3 4 5 6)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      370   ->     163
+Number of variables                   4   ->       8
+j variable (6 values)            period   ->   (dropped)
+xij variables:
+                                   hits   ->   hits1 hits2 ... hits6
+-----------------------------------------------------------------------------
+.         
+.         preserve
+.         keep if hits1 != . & hits2 != . & hits3 != .
+(91 observations deleted)
+.         keep name hits1-hits3
+.         drop if hits1 == 0 | hits2==0 | hits3==0
+(27 observations deleted)
+.         restore
+.         
+.         sum hits1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits1 |         86    42.94186    60.99669          0        239
+.         local m_before = r(mean)
+.         local sd_before = r(sd)
+.         local N_before =r(N)
+.         
+.         sum hits2
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits2 |        113    315.3097     502.409          0       2581
+.         local m_during = r(mean)
+.         local sd_during = r(sd)
+.         local N_during =r(N)
+.         
+.         sum hits3
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits3 |         98    42.91837    88.32061          0        416
+.         local m_after = r(mean)
+.         local sd_after = r(sd)
+.         local N_after =r(N)
+.         
+.         
+.         local diff1 = `m_before' - `m_during'
+.         ttest hits1==hits2, unpaired
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+   hits1 |      86    42.94186    6.577443    60.99669    29.86414    56.01958
+   hits2 |     113    315.3097    47.26266     502.409    221.6648    408.9546
+---------+--------------------------------------------------------------------
+combined |     199     197.603     28.5912    403.3285    141.2207    253.9854
+---------+--------------------------------------------------------------------
+    diff |           -272.3679    54.51136               -379.8686   -164.8672
+------------------------------------------------------------------------------
+    diff = mean(hits1) - mean(hits2)                              t =  -4.9965
+Ho: diff = 0                                     degrees of freedom =      197
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+.         local p1 = r(p)
+.         local diff2 = `m_after' - `m_during'
+.         ttest hits3==hits2, unpaired
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+   hits3 |      98    42.91837    8.921728    88.32061    25.21121    60.62553
+   hits2 |     113    315.3097    47.26266     502.409    221.6648    408.9546
+---------+--------------------------------------------------------------------
+combined |     211    188.7962    27.25757     395.939    135.0627    242.5297
+---------+--------------------------------------------------------------------
+    diff |           -272.3914    51.44198                -373.803   -170.9797
+------------------------------------------------------------------------------
+    diff = mean(hits3) - mean(hits2)                              t =  -5.2951
+Ho: diff = 0                                     degrees of freedom =      209
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+.         local p2 = r(p)
+.         
+.         **minority leaders
+.         
+.         sum hits4
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits4 |         20       23.75    31.95536          0        114
+.         local lead_before = r(mean)
+.         local lead_sd_before = r(sd)
+.         local lead_N_before =r(N)
+.         
+.         sum hits5
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits5 |         30    139.6667    106.1428          6        401
+.         local lead_during = r(mean)
+.         local lead_sd_during = r(sd)
+.         local lead_N_during =r(N)
+.         
+.         sum hits6
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hits6 |         23    47.73913    75.72031          0        312
+.         local lead_after = r(mean)
+.         local lead_sd_after = r(sd)
+.         local lead_N_after =r(N)
+.         
+.         local diff3 = `lead_before' - `lead_during'
+.         ttest hits4==hits5, unpaired
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+   hits4 |      20       23.75    7.145435    31.95536    8.794433    38.70557
+   hits5 |      30    139.6667    19.37894    106.1428    100.0323     179.301
+---------+--------------------------------------------------------------------
+combined |      50        93.3    14.39054    101.7565    64.38113    122.2189
+---------+--------------------------------------------------------------------
+    diff |           -115.9167    24.51347               -165.2043   -66.62902
+------------------------------------------------------------------------------
+    diff = mean(hits4) - mean(hits5)                              t =  -4.7287
+Ho: diff = 0                                     degrees of freedom =       48
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0000         Pr(|T| > |t|) = 0.0000          Pr(T > t) = 1.0000
+.         local p3 = r(p)
+.         local diff4 = `lead_after' - `lead_during'
+.         ttest hits6==hits5, unpaired
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+   hits6 |      23    47.73913    15.78878    75.72031    14.99521    80.48305
+   hits5 |      30    139.6667    19.37894    106.1428    100.0323     179.301
+---------+--------------------------------------------------------------------
+combined |      53    99.77358    14.29118    104.0413    71.09624    128.4509
+---------+--------------------------------------------------------------------
+    diff |           -91.92754    26.11625               -144.3581   -39.49698
+------------------------------------------------------------------------------
+    diff = mean(hits6) - mean(hits5)                              t =  -3.5199
+Ho: diff = 0                                     degrees of freedom =       51
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0005         Pr(|T| > |t|) = 0.0009          Pr(T > t) = 0.9995
+.         local p4 = r(p)
+. 
+.         quietly {
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ opened on:  19 Apr 2017, 14:53:24
+
+. 
+. ********************************************************************************
+. * Relative Coverage of City Offices Over Time
+. * Table 2: Impact of Switch from Mayor-Countil to Council-Manager City Government
+. * Table A.4: with linear, city-specific time trends 
+. ********************************************************************************
+. 
+. if `make_mayors'==1 {
+. 
+.         use hits_citygov, clear
+.         replace city = upper(city)
+(129,686 real changes made)
+.         replace city = "SAN BERNARDINO" if state == "CA" & strpos(city, "SAN BERNARDIN") > 0
+(429 real changes made)
+.         replace city = "WILMINGTON"     if state == "DE" & city=="WILMING"
+(5 real changes made)
+.         replace city = "NATCHITOCHES"   if state == "LA" & strpos(city, "NATCHITOCH") > 0
+(6 real changes made)
+.         drop if city == "UNITED STATES OF AMERICA"
+(0 observations deleted)
+.         drop if real(city) != .
+(0 observations deleted)
+.         drop if city == ""
+(479 observations deleted)
+.         drop if state == ""
+(2,222 observations deleted)
+.         collapse (sum) mayor city_manager city_council mayor_x city_manager_x city_council_x, by(state city year)
+.         sort state city year
+.         tempfile citygov
+.         save `citygov', replace
+(note: file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000003 not found)
+file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000003 saved
+. 
+.         insheet using city_manager_dates.txt , names clear
+(7 vars, 1,097 obs)
+.         sort state city
+.         tempfile tmp1
+.         save `tmp1', replace
+(note: file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000004 not found)
+file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000004 saved
+.         
+.         use `citygov', replace
+.         replace city = upper(city)
+(0 real changes made)
+.         drop if state == ""
+(0 observations deleted)
+.         drop if city == "OTTAWA" & state == "PA"
+(0 observations deleted)
+.         drop if city == "OTTAWA" & state == "TX"
+(0 observations deleted)
+.         drop if city == "WINNIPEG"
+(0 observations deleted)
+.         drop if city == "VANCOUVER"
+(10 observations deleted)
+.         replace city = "MOUNT VERNON" if city == "MT VERNON"
+(38 real changes made)
+.         sort state city
+.         merge state city using `tmp1'
+(note: you are using old merge syntax; see [D] merge for new syntax)
+variables state city do not uniquely identify observations in the master data
+(note: variable city was str22, now str28 to accommodate using data's values)
+.         drop if year < 1876 | year > 1977
+(5,665 observations deleted)
+.         
+.         sort state city year
+.         
+.         rename first_year x
+.         replace x = subinstr(x, "?" ,"" ,.)
+(330 real changes made)
+.         gen first_year = real(x)
+(21,451 missing values generated)
+.         drop x
+.         
+.         save `tmp1', replace
+file /var/folders/61/8_4x2m71723620zdy7x618300000gn/T//S_03391.000004 saved
+.         
+.         use `tmp1', replace
+.         
+.         egen total   = rsum(mayor   city_manager   city_council)
+.         egen total_x = rsum(mayor_x city_manager_x city_council_x)
+.         
+.         foreach i of varlist mayor city_manager city_council {
+  2.           gen r_`i'  = `i'/total if total >= 50
+  3.         }
+(22,602 missing values generated)
+(22,602 missing values generated)
+(22,602 missing values generated)
+.         
+.         foreach i of varlist mayor_x city_manager_x city_council_x {
+  2.           gen r_`i'  = `i'/total_x if total_x >= 10
+  3.         }
+(24,684 missing values generated)
+(24,684 missing values generated)
+(24,684 missing values generated)
+.         
+.         gen city_manager_govt = (year >= first_year)
+.         
+.         egen x = count(r_mayor), by(state city)
+.         
+.         drop if x < 10
+(17,824 observations deleted)
+.         
+.         keep if (good_case == "***** currently council-manager" & first_year != .) | (good_case == "***** currently mayor-council")
+(5,439 observations deleted)
+.         compress
+  variable year was float now int
+  variable first_year was float now int
+  variable total was float now int
+  variable total_x was float now int
+  variable city_manager_govt was float now byte
+  variable x was float now byte
+  variable mayor was double now int
+  variable city_manager was double now int
+  variable city_council was double now int
+  variable mayor_x was double now int
+  variable city_manager_x was double now int
+  variable city_council_x was double now int
+  variable city was str28 now str16
+  variable good_case was str87 now str31
+  variable v6 was str6 now str1
+  variable v7 was str6 now str1
+  (841,216 bytes saved)
+.         
+.         keep if year >= 1890
+(652 observations deleted)
+.         tab year, gen(Y)
+
+       year |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       1890 |         59        1.00        1.00
+       1891 |         68        1.15        2.15
+       1892 |         68        1.15        3.29
+       1893 |         65        1.10        4.39
+       1894 |         69        1.17        5.56
+       1895 |         68        1.15        6.71
+       1896 |         65        1.10        7.80
+       1897 |         67        1.13        8.94
+       1898 |         66        1.11       10.05
+       1899 |         66        1.11       11.17
+       1900 |         58        0.98       12.15
+       1901 |         63        1.06       13.21
+       1902 |         62        1.05       14.26
+       1903 |         59        1.00       15.25
+       1904 |         60        1.01       16.27
+       1905 |         61        1.03       17.30
+       1906 |         63        1.06       18.36
+       1907 |         64        1.08       19.44
+       1908 |         65        1.10       20.54
+       1909 |         69        1.17       21.71
+       1910 |         62        1.05       22.75
+       1911 |         68        1.15       23.90
+       1912 |         68        1.15       25.05
+       1913 |         67        1.13       26.18
+       1914 |         68        1.15       27.33
+       1915 |         70        1.18       28.51
+       1916 |         72        1.22       29.73
+       1917 |         71        1.20       30.93
+       1918 |         70        1.18       32.11
+       1919 |         69        1.17       33.28
+       1920 |         72        1.22       34.49
+       1921 |         74        1.25       35.74
+       1922 |         68        1.15       36.89
+       1923 |         54        0.91       37.80
+       1924 |         51        0.86       38.67
+       1925 |         51        0.86       39.53
+       1926 |         54        0.91       40.44
+       1927 |         52        0.88       41.32
+       1928 |         53        0.90       42.21
+       1929 |         60        1.01       43.23
+       1930 |         63        1.06       44.29
+       1931 |         62        1.05       45.34
+       1932 |         62        1.05       46.39
+       1933 |         64        1.08       47.47
+       1934 |         63        1.06       48.53
+       1935 |         65        1.10       49.63
+       1936 |         66        1.11       50.74
+       1937 |         68        1.15       51.89
+       1938 |         63        1.06       52.96
+       1939 |         65        1.10       54.05
+       1940 |         64        1.08       55.14
+       1941 |         66        1.11       56.25
+       1942 |         68        1.15       57.40
+       1943 |         65        1.10       58.50
+       1944 |         65        1.10       59.59
+       1945 |         66        1.11       60.71
+       1946 |         65        1.10       61.81
+       1947 |         64        1.08       62.89
+       1948 |         66        1.11       64.00
+       1949 |         62        1.05       65.05
+       1950 |         66        1.11       66.17
+       1951 |         63        1.06       67.23
+       1952 |         65        1.10       68.33
+       1953 |         70        1.18       69.51
+       1954 |         75        1.27       70.78
+       1955 |         73        1.23       72.01
+       1956 |         78        1.32       73.33
+       1957 |         73        1.23       74.56
+       1958 |         76        1.28       75.84
+       1959 |         73        1.23       77.08
+       1960 |         71        1.20       78.28
+       1961 |         75        1.27       79.54
+       1962 |         76        1.28       80.83
+       1963 |         81        1.37       82.20
+       1964 |         78        1.32       83.51
+       1965 |         79        1.33       84.85
+       1966 |         74        1.25       86.10
+       1967 |         76        1.28       87.38
+       1968 |         75        1.27       88.65
+       1969 |         72        1.22       89.86
+       1970 |         73        1.23       91.10
+       1971 |         75        1.27       92.36
+       1972 |         73        1.23       93.60
+       1973 |         75        1.27       94.86
+       1974 |         76        1.28       96.15
+       1975 |         81        1.37       97.52
+       1976 |         75        1.27       98.78
+       1977 |         72        1.22      100.00
+------------+-----------------------------------
+      Total |      5,920      100.00
+.         
+.         gen state_city = state + " " + city
+.         
+.         areg r_mayor          city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      3,540
+                                                F(  88,    120)   =      45.43
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7621
+                                                Adj R-squared     =     0.7472
+                                                Root MSE          =     0.1011
+
+                                (Std. Err. adjusted for 121 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+          r_mayor |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |  -.1831944   .0238659    -7.68   0.000    -.2304473   -.1359415
+               Y1 |   .1598791   .0487469     3.28   0.001     .0633637    .2563946
+               Y2 |   .1899831    .034097     5.57   0.000     .1224734    .2574929
+               Y3 |   .1685355   .0385374     4.37   0.000     .0922342    .2448367
+               Y4 |   .2128866   .0341901     6.23   0.000     .1451926    .2805807
+               Y5 |   .1941713   .0340341     5.71   0.000     .1267862    .2615564
+               Y6 |    .221392   .0338254     6.55   0.000       .15442     .288364
+               Y7 |    .218376   .0349463     6.25   0.000     .1491847    .2875672
+               Y8 |    .205559   .0303959     6.76   0.000     .1453772    .2657408
+               Y9 |   .1948795   .0372853     5.23   0.000     .1210572    .2687018
+              Y10 |   .2029339   .0333055     6.09   0.000     .1369913    .2688765
+              Y11 |   .1903585   .0346322     5.50   0.000     .1217892    .2589279
+              Y12 |   .2493604   .0308271     8.09   0.000     .1883249    .3103959
+              Y13 |    .194198   .0333578     5.82   0.000      .128152    .2602441
+              Y14 |    .199496   .0328256     6.08   0.000     .1345036    .2644883
+              Y15 |   .1781655   .0331586     5.37   0.000     .1125139    .2438172
+              Y16 |   .2240856   .0331417     6.76   0.000     .1584674    .2897038
+              Y17 |   .1750351   .0338954     5.16   0.000     .1079246    .2421456
+              Y18 |   .2144422   .0314005     6.83   0.000     .1522713    .2766131
+              Y19 |   .1839455   .0320575     5.74   0.000     .1204738    .2474172
+              Y20 |   .1955543   .0346692     5.64   0.000     .1269117    .2641969
+              Y21 |   .2015282   .0327865     6.15   0.000     .1366133    .2664432
+              Y22 |   .1962971   .0327781     5.99   0.000     .1313987    .2611955
+              Y23 |   .2136317   .0327772     6.52   0.000      .148735    .2785283
+              Y24 |   .1835659   .0272244     6.74   0.000     .1296635    .2374683
+              Y25 |   .1466066    .029885     4.91   0.000     .0874365    .2057767
+              Y26 |   .1156508   .0307752     3.76   0.000      .054718    .1765836
+              Y27 |   .1328827    .028507     4.66   0.000     .0764407    .1893246
+              Y28 |   .1167754   .0308931     3.78   0.000     .0556092    .1779416
+              Y29 |   .0797662   .0340438     2.34   0.021     .0123618    .1471706
+              Y30 |   .1267245   .0309932     4.09   0.000     .0653601    .1880889
+              Y31 |   .0985386   .0317382     3.10   0.002     .0356991     .161378
+              Y32 |   .1047372   .0345886     3.03   0.003     .0362541    .1732202
+              Y33 |   .1011547   .0304757     3.32   0.001      .040815    .1614944
+              Y34 |   .1086578   .0314999     3.45   0.001     .0462901    .1710255
+              Y35 |   .1139301   .0320285     3.56   0.001     .0505159    .1773442
+              Y36 |   .0978334   .0333633     2.93   0.004     .0317763    .1638905
+              Y37 |   .0954894   .0330858     2.89   0.005     .0299819    .1609969
+              Y38 |   .1030863   .0287277     3.59   0.000     .0462075    .1599651
+              Y39 |   .0676348   .0358735     1.89   0.062    -.0033923    .1386618
+              Y40 |   .0770107   .0320495     2.40   0.018     .0135548    .1404665
+              Y41 |    .044958   .0298395     1.51   0.135    -.0141222    .1040382
+              Y42 |   .1067446   .0263123     4.06   0.000      .054648    .1588411
+              Y43 |   .1249916   .0245131     5.10   0.000     .0764573    .1735259
+              Y44 |   .0977764    .023694     4.13   0.000     .0508639    .1446889
+              Y45 |   .0959589    .027754     3.46   0.001     .0410078    .1509099
+              Y46 |   .0857631   .0244634     3.51   0.001     .0373272    .1341989
+              Y47 |   .0782075   .0247829     3.16   0.002      .029139     .127276
+              Y48 |    .078153   .0256774     3.04   0.003     .0273136    .1289924
+              Y49 |   .0768718   .0245187     3.14   0.002     .0283263    .1254172
+              Y50 |   .0655158   .0243168     2.69   0.008     .0173702    .1136614
+              Y51 |   .0500207   .0322211     1.55   0.123    -.0137749    .1138162
+              Y52 |    .056856   .0281591     2.02   0.046     .0011029     .112609
+              Y53 |   .0719767   .0292969     2.46   0.015     .0139709    .1299826
+              Y54 |   .0461867   .0248789     1.86   0.066    -.0030718    .0954452
+              Y55 |   .0180165   .0288882     0.62   0.534    -.0391801    .0752131
+              Y56 |   .0376471   .0254207     1.48   0.141     -.012684    .0879783
+              Y57 |   .0405195   .0241354     1.68   0.096    -.0072668    .0883058
+              Y58 |   .0479711   .0234729     2.04   0.043     .0014964    .0944458
+              Y59 |   .0307153   .0222704     1.38   0.170    -.0133784    .0748091
+              Y60 |   .0548028   .0238488     2.30   0.023     .0075839    .1020217
+              Y61 |    .039921   .0252344     1.58   0.116    -.0100413    .0898833
+              Y62 |    .030515   .0236391     1.29   0.199    -.0162889    .0773188
+              Y63 |  -.0068225   .0208493    -0.33   0.744    -.0481025    .0344576
+              Y64 |   .0215402   .0223799     0.96   0.338    -.0227705    .0658509
+              Y65 |   .0185571   .0234863     0.79   0.431     -.027944    .0650583
+              Y66 |   .0193844   .0253121     0.77   0.445    -.0307319    .0695007
+              Y67 |    .001184   .0216936     0.05   0.957    -.0417678    .0441357
+              Y68 |   .0031212   .0204188     0.15   0.879    -.0373065     .043549
+              Y69 |  -.0071949   .0233447    -0.31   0.758    -.0534158    .0390259
+              Y70 |   .0410415   .0198081     2.07   0.040     .0018228    .0802602
+              Y71 |   .0073837   .0195926     0.38   0.707    -.0314083    .0461758
+              Y72 |   .0428434   .0212764     2.01   0.046     .0007176    .0849692
+              Y73 |   .0124735   .0185536     0.67   0.503    -.0242614    .0492085
+              Y74 |   .0444599   .0185662     2.39   0.018     .0077001    .0812196
+              Y75 |  -.0031759   .0206462    -0.15   0.878    -.0440539    .0377021
+              Y76 |   .0458351   .0181513     2.53   0.013     .0098968    .0817735
+              Y77 |   .0247385   .0178929     1.38   0.169    -.0106882    .0601651
+              Y78 |   .0484035   .0193747     2.50   0.014      .010043     .086764
+              Y79 |   .0177875   .0183912     0.97   0.335    -.0186258    .0542007
+              Y80 |   .0362657   .0159915     2.27   0.025     .0046036    .0679278
+              Y81 |   .0050257   .0189027     0.27   0.791    -.0324004    .0424518
+              Y82 |   .0370163   .0175803     2.11   0.037     .0022085    .0718242
+              Y83 |  -.0024405   .0177635    -0.14   0.891    -.0376109      .03273
+              Y84 |   .0015367    .017152     0.09   0.929     -.032423    .0354964
+              Y85 |  -.0248803   .0153901    -1.62   0.109    -.0553516    .0055909
+              Y86 |   .0161973   .0143228     1.13   0.260    -.0121608    .0445555
+              Y87 |  -.0066693   .0161832    -0.41   0.681    -.0387109    .0253724
+              Y88 |          0  (omitted)
+            _cons |   .6033822   .0217963    27.68   0.000     .5602272    .6465373
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (121 categories)
+.         local b_1 =  _b[city_manager_govt]
+.         local s_1 = _se[city_manager_govt]
+.         local n_1 =  e(N)
+.         areg r_city_manager   city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      3,540
+                                                F(  88,    120)   =      46.80
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7015
+                                                Adj R-squared     =     0.6829
+                                                Root MSE          =     0.0657
+
+                                (Std. Err. adjusted for 121 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+   r_city_manager |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |    .178474   .0202245     8.82   0.000     .1384309     .218517
+               Y1 |  -.0021186   .0164889    -0.13   0.898    -.0347655    .0305284
+               Y2 |   .0049065   .0159084     0.31   0.758     -.026591    .0364039
+               Y3 |   .0178627   .0194938     0.92   0.361    -.0207337    .0564591
+               Y4 |    .001482   .0156297     0.09   0.925    -.0294637    .0324278
+               Y5 |   .0031429   .0154368     0.20   0.839    -.0274209    .0337067
+               Y6 |   .0050727   .0167343     0.30   0.762    -.0280601    .0382055
+               Y7 |   .0031564   .0168797     0.19   0.852    -.0302643     .036577
+               Y8 |   .0065245   .0165315     0.39   0.694    -.0262068    .0392558
+               Y9 |    .010401   .0162822     0.64   0.524    -.0218367    .0426386
+              Y10 |   .0062534   .0161841     0.39   0.700      -.02579    .0382967
+              Y11 |   .0031349   .0151387     0.21   0.836    -.0268386    .0331084
+              Y12 |   .0091352   .0159794     0.57   0.569    -.0225028    .0407732
+              Y13 |   .0138125   .0158069     0.87   0.384    -.0174841    .0451091
+              Y14 |   .0149377   .0162171     0.92   0.359    -.0171711    .0470464
+              Y15 |   .0113641   .0164819     0.69   0.492     -.021269    .0439971
+              Y16 |   .0075685   .0159267     0.48   0.636    -.0239653    .0391023
+              Y17 |   .0091764    .015895     0.58   0.565    -.0222946    .0406475
+              Y18 |   .0150701   .0159659     0.94   0.347    -.0165412    .0466814
+              Y19 |    .009118   .0158231     0.58   0.566    -.0222107    .0404466
+              Y20 |   .0076581    .015923     0.48   0.631    -.0238683    .0391845
+              Y21 |      .0104   .0159606     0.65   0.516     -.021201    .0420009
+              Y22 |   .0099193    .016084     0.62   0.539    -.0219258    .0417645
+              Y23 |   .0169002   .0169381     1.00   0.320    -.0166361    .0504364
+              Y24 |   .0145519    .016257     0.90   0.373    -.0176358    .0467397
+              Y25 |   .0215406   .0161982     1.33   0.186    -.0105307     .053612
+              Y26 |   .0242805   .0164694     1.47   0.143    -.0083279    .0568888
+              Y27 |   .0223224   .0178238     1.25   0.213    -.0129675    .0576124
+              Y28 |   .0495835   .0235163     2.11   0.037     .0030228    .0961442
+              Y29 |   .0553505   .0301432     1.84   0.069    -.0043308    .1150318
+              Y30 |   .0463968   .0247577     1.87   0.063    -.0026218    .0954153
+              Y31 |   .0556396   .0242851     2.29   0.024     .0075567    .1037224
+              Y32 |   .0443509   .0192928     2.30   0.023     .0061525    .0825493
+              Y33 |   .0415312   .0218014     1.90   0.059     -.001634    .0846963
+              Y34 |   .0274778   .0167305     1.64   0.103    -.0056475    .0606031
+              Y35 |   .0094007   .0177491     0.53   0.597    -.0257413    .0445427
+              Y36 |   .0203099   .0192951     1.05   0.295    -.0178931    .0585128
+              Y37 |   .0264262   .0233065     1.13   0.259    -.0197191    .0725714
+              Y38 |   .0469237   .0266268     1.76   0.081    -.0057956    .0996429
+              Y39 |   .0401879   .0223206     1.80   0.074    -.0040053    .0843811
+              Y40 |   .0303796   .0239575     1.27   0.207    -.0170545    .0778138
+              Y41 |   .0375061   .0225061     1.67   0.098    -.0070544    .0820666
+              Y42 |   .0309761   .0211049     1.47   0.145    -.0108101    .0727623
+              Y43 |   .0215988   .0175814     1.23   0.222    -.0132111    .0564087
+              Y44 |   .0297619   .0198899     1.50   0.137    -.0096188    .0691425
+              Y45 |   .0329792    .023686     1.39   0.166    -.0139175    .0798758
+              Y46 |    .038685   .0259813     1.49   0.139    -.0127561    .0901261
+              Y47 |   .0372283   .0218981     1.70   0.092    -.0061284     .080585
+              Y48 |   .0406847   .0199093     2.04   0.043     .0012656    .0801038
+              Y49 |   .0607499    .020486     2.97   0.004      .020189    .1013108
+              Y50 |   .0549298   .0204973     2.68   0.008     .0143466    .0955131
+              Y51 |   .0642433   .0263722     2.44   0.016     .0120283    .1164583
+              Y52 |   .0572083   .0247326     2.31   0.022     .0082396    .1061771
+              Y53 |   .0606119   .0246704     2.46   0.015     .0117662    .1094577
+              Y54 |   .0602936   .0202269     2.98   0.003     .0202456    .1003415
+              Y55 |   .0679956   .0236121     2.88   0.005     .0212452    .1147459
+              Y56 |   .0586171    .023682     2.48   0.015     .0117284    .1055057
+              Y57 |   .0658487   .0191324     3.44   0.001     .0279679    .1037295
+              Y58 |   .0591879   .0173338     3.41   0.001     .0248682    .0935077
+              Y59 |   .0678675   .0170463     3.98   0.000     .0341171     .101618
+              Y60 |   .0345855   .0140443     2.46   0.015     .0067787    .0623923
+              Y61 |   .0467314   .0150716     3.10   0.002     .0168907    .0765721
+              Y62 |   .0361538   .0210202     1.72   0.088    -.0054648    .0777724
+              Y63 |   .0796266   .0186941     4.26   0.000     .0426135    .1166397
+              Y64 |   .0401019    .014843     2.70   0.008     .0107138    .0694899
+              Y65 |   .0325004   .0143023     2.27   0.025     .0041828     .060818
+              Y66 |   .0424439   .0157846     2.69   0.008     .0111914    .0736964
+              Y67 |   .0648637   .0167184     3.88   0.000     .0317625    .0979649
+              Y68 |   .0462451   .0167143     2.77   0.007     .0131519    .0793382
+              Y69 |   .0530597   .0167695     3.16   0.002     .0198572    .0862621
+              Y70 |   .0350494   .0124381     2.82   0.006     .0104229     .059676
+              Y71 |   .0439212   .0151515     2.90   0.004     .0139222    .0739201
+              Y72 |   .0311241   .0120828     2.58   0.011      .007201    .0550471
+              Y73 |    .027026   .0120638     2.24   0.027     .0031405    .0509115
+              Y74 |   .0159716   .0110112     1.45   0.150    -.0058298     .037773
+              Y75 |   .0300271    .012935     2.32   0.022     .0044166    .0556376
+              Y76 |  -.0068144   .0116484    -0.59   0.560    -.0298774    .0162485
+              Y77 |   .0033801   .0116369     0.29   0.772    -.0196601    .0264204
+              Y78 |   .0092289    .010974     0.84   0.402     -.012499    .0309567
+              Y79 |   .0050939   .0109842     0.46   0.644     -.016654    .0268418
+              Y80 |   .0007643   .0104227     0.07   0.942    -.0198719    .0214005
+              Y81 |   .0100522   .0126089     0.80   0.427    -.0149125    .0350169
+              Y82 |   .0040285   .0104565     0.39   0.701    -.0166747    .0247317
+              Y83 |   .0239731   .0126198     1.90   0.060    -.0010131    .0489593
+              Y84 |  -.0006182    .011018    -0.06   0.955    -.0224331    .0211968
+              Y85 |   .0072987   .0106194     0.69   0.493     -.013727    .0283245
+              Y86 |   .0020374   .0088261     0.23   0.818    -.0154377    .0195124
+              Y87 |   .0112193   .0088469     1.27   0.207     -.006297    .0287355
+              Y88 |          0  (omitted)
+            _cons |  -.0038838   .0161697    -0.24   0.811    -.0358988    .0281311
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (121 categories)
+.         local b_2 =  _b[city_manager_govt]
+.         local s_2 = _se[city_manager_govt]
+.         local n_2 =  e(N)
+.         areg r_city_council   city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      3,540
+                                                F(  88,    120)   =      14.90
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6404
+                                                Adj R-squared     =     0.6179
+                                                Root MSE          =     0.1002
+
+                                (Std. Err. adjusted for 121 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+   r_city_council |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |   .0047204    .026843     0.18   0.861    -.0484268    .0578676
+               Y1 |  -.1577606   .0522337    -3.02   0.003    -.2611797   -.0543414
+               Y2 |  -.1948896    .035889    -5.43   0.000    -.2659474   -.1238318
+               Y3 |  -.1863982   .0393478    -4.74   0.000     -.264304   -.1084923
+               Y4 |  -.2143686   .0348725    -6.15   0.000    -.2834139   -.1453234
+               Y5 |  -.1973142   .0368415    -5.36   0.000    -.2702577   -.1243707
+               Y6 |  -.2264647   .0363992    -6.22   0.000    -.2985325   -.1543968
+               Y7 |  -.2215323   .0377181    -5.87   0.000    -.2962115   -.1468531
+               Y8 |  -.2120835   .0320641    -6.61   0.000    -.2755682   -.1485988
+               Y9 |  -.2052805   .0371118    -5.53   0.000    -.2787591   -.1318018
+              Y10 |  -.2091873   .0350732    -5.96   0.000    -.2786297   -.1397448
+              Y11 |  -.1934934   .0357058    -5.42   0.000    -.2641885   -.1227983
+              Y12 |  -.2584956   .0324414    -7.97   0.000    -.3227273   -.1942638
+              Y13 |  -.2080105   .0339956    -6.12   0.000    -.2753194   -.1407017
+              Y14 |  -.2144336   .0327289    -6.55   0.000    -.2792345   -.1496328
+              Y15 |  -.1895296   .0352882    -5.37   0.000    -.2593979   -.1196614
+              Y16 |  -.2316541   .0349818    -6.62   0.000    -.3009157   -.1623925
+              Y17 |  -.1842116   .0350095    -5.26   0.000    -.2535278   -.1148953
+              Y18 |  -.2295123   .0330068    -6.95   0.000    -.2948634   -.1641612
+              Y19 |  -.1930634   .0350646    -5.51   0.000     -.262489   -.1236379
+              Y20 |  -.2032124   .0380031    -5.35   0.000    -.2784558    -.127969
+              Y21 |  -.2119282   .0358419    -5.91   0.000    -.2828927   -.1409637
+              Y22 |  -.2062164   .0334531    -6.16   0.000    -.2724512   -.1399817
+              Y23 |  -.2305318   .0343255    -6.72   0.000     -.298494   -.1625697
+              Y24 |  -.1981179   .0286667    -6.91   0.000     -.254876   -.1413597
+              Y25 |  -.1681472   .0326104    -5.16   0.000    -.2327135   -.1035809
+              Y26 |  -.1399312   .0325116    -4.30   0.000     -.204302   -.0755605
+              Y27 |  -.1552051   .0300039    -5.17   0.000    -.2146108   -.0957994
+              Y28 |  -.1663589   .0327233    -5.08   0.000    -.2311487   -.1015691
+              Y29 |  -.1351167   .0362123    -3.73   0.000    -.2068145   -.0634188
+              Y30 |  -.1731213   .0316715    -5.47   0.000    -.2358286   -.1104139
+              Y31 |  -.1541782   .0319465    -4.83   0.000    -.2174299   -.0909264
+              Y32 |   -.149088   .0339039    -4.40   0.000    -.2162153   -.0819608
+              Y33 |  -.1426858   .0298606    -4.78   0.000    -.2018077   -.0835639
+              Y34 |  -.1361356   .0320094    -4.25   0.000     -.199512   -.0727592
+              Y35 |  -.1233308   .0331034    -3.73   0.000    -.1888733   -.0577882
+              Y36 |  -.1181433   .0378264    -3.12   0.002     -.193037   -.0432496
+              Y37 |  -.1219156   .0362484    -3.36   0.001    -.1936849   -.0501464
+              Y38 |    -.15001   .0325201    -4.61   0.000    -.2143975   -.0856225
+              Y39 |  -.1078227   .0383554    -2.81   0.006    -.1837637   -.0318817
+              Y40 |  -.1073903   .0318691    -3.37   0.001     -.170489   -.0442916
+              Y41 |  -.0824641   .0314971    -2.62   0.010    -.1448261   -.0201021
+              Y42 |  -.1377206   .0257778    -5.34   0.000    -.1887589   -.0866823
+              Y43 |  -.1465904   .0251063    -5.84   0.000    -.1962991   -.0968816
+              Y44 |  -.1275383    .024069    -5.30   0.000    -.1751931   -.0798834
+              Y45 |   -.128938   .0246676    -5.23   0.000    -.1777781   -.0800979
+              Y46 |  -.1244481   .0240633    -5.17   0.000    -.1720917   -.0768045
+              Y47 |  -.1154358   .0224533    -5.14   0.000    -.1598919   -.0709798
+              Y48 |  -.1188376   .0244269    -4.87   0.000    -.1672013    -.070474
+              Y49 |  -.1376217   .0249675    -5.51   0.000    -.1870556   -.0881877
+              Y50 |  -.1204456   .0246173    -4.89   0.000    -.1691862    -.071705
+              Y51 |   -.114264   .0300045    -3.81   0.000    -.1736709    -.054857
+              Y52 |  -.1140643   .0246482    -4.63   0.000     -.162866   -.0652626
+              Y53 |  -.1325886   .0241746    -5.48   0.000    -.1804528   -.0847245
+              Y54 |  -.1064803   .0226006    -4.71   0.000    -.1512278   -.0617327
+              Y55 |  -.0860121   .0295443    -2.91   0.004    -.1445077   -.0275164
+              Y56 |  -.0962642   .0273668    -3.52   0.001    -.1504486   -.0420798
+              Y57 |  -.1063682   .0229543    -4.63   0.000    -.1518162   -.0609203
+              Y58 |   -.107159   .0238335    -4.50   0.000    -.1543477   -.0599703
+              Y59 |  -.0985829   .0240752    -4.09   0.000      -.14625   -.0509158
+              Y60 |  -.0893883   .0240716    -3.71   0.000    -.1370484   -.0417283
+              Y61 |  -.0866524   .0250759    -3.46   0.001     -.136301   -.0370038
+              Y62 |  -.0666688   .0237027    -2.81   0.006    -.1135985    -.019739
+              Y63 |  -.0728041   .0214995    -3.39   0.001    -.1153716   -.0302367
+              Y64 |   -.061642   .0202413    -3.05   0.003    -.1017183   -.0215657
+              Y65 |  -.0510575   .0246419    -2.07   0.040    -.0998468   -.0022682
+              Y66 |  -.0618283   .0229737    -2.69   0.008    -.1073146    -.016342
+              Y67 |  -.0660477   .0196226    -3.37   0.001    -.1048991   -.0271963
+              Y68 |  -.0493663   .0201647    -2.45   0.016    -.0892911   -.0094415
+              Y69 |  -.0458648   .0216682    -2.12   0.036    -.0887662   -.0029633
+              Y70 |  -.0760909   .0182175    -4.18   0.000    -.1121603   -.0400216
+              Y71 |  -.0513049   .0191978    -2.67   0.009    -.0893152   -.0132946
+              Y72 |  -.0739675   .0207117    -3.57   0.001    -.1149753   -.0329597
+              Y73 |  -.0394996   .0190061    -2.08   0.040    -.0771303   -.0018688
+              Y74 |  -.0604315    .018306    -3.30   0.001     -.096676   -.0241869
+              Y75 |  -.0268512   .0201211    -1.33   0.185    -.0666897    .0129872
+              Y76 |  -.0390207   .0177263    -2.20   0.030    -.0741176   -.0039238
+              Y77 |  -.0281186   .0175257    -1.60   0.111    -.0628183     .006581
+              Y78 |  -.0576324   .0170058    -3.39   0.001    -.0913027    -.023962
+              Y79 |  -.0228814   .0190958    -1.20   0.233    -.0606898     .014927
+              Y80 |    -.03703   .0169737    -2.18   0.031    -.0706367   -.0034234
+              Y81 |  -.0150779   .0197849    -0.76   0.448    -.0542508    .0240949
+              Y82 |  -.0410448    .018358    -2.24   0.027    -.0773924   -.0046973
+              Y83 |  -.0215326   .0178448    -1.21   0.230    -.0568641    .0137988
+              Y84 |  -.0009185   .0166596    -0.06   0.956    -.0339033    .0320663
+              Y85 |   .0175816    .015101     1.16   0.247    -.0123173    .0474805
+              Y86 |  -.0182347   .0142624    -1.28   0.204    -.0464732    .0100039
+              Y87 |    -.00455   .0152246    -0.30   0.766    -.0346936    .0255936
+              Y88 |          0  (omitted)
+            _cons |   .4005016   .0228389    17.54   0.000     .3552821    .4457211
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (121 categories)
+.         
+.         areg r_mayor_x        city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      2,376
+                                                F(  88,    117)   =      33.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6965
+                                                Adj R-squared     =     0.6678
+                                                Root MSE          =     0.1719
+
+                                (Std. Err. adjusted for 118 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+        r_mayor_x |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |  -.2503144   .0396004    -6.32   0.000     -.328741   -.1718879
+               Y1 |   .2405623   .0862372     2.79   0.006      .069774    .4113507
+               Y2 |   .2773904   .0657923     4.22   0.000     .1470922    .4076887
+               Y3 |   .2127631   .0710892     2.99   0.003     .0719747    .3535515
+               Y4 |   .3268792   .0566327     5.77   0.000     .2147212    .4390373
+               Y5 |   .2315189   .0685948     3.38   0.001     .0956705    .3673672
+               Y6 |   .2292825   .0748074     3.06   0.003     .0811305    .3774346
+               Y7 |   .3130032   .0591727     5.29   0.000     .1958147    .4301918
+               Y8 |   .2841598   .0598193     4.75   0.000     .1656909    .4026287
+               Y9 |     .25246   .0681927     3.70   0.000     .1174079    .3875121
+              Y10 |   .2255405   .0676964     3.33   0.001     .0914713    .3596097
+              Y11 |   .3048324   .0609627     5.00   0.000      .184099    .4255658
+              Y12 |   .2478337   .0665844     3.72   0.000     .1159668    .3797006
+              Y13 |   .2918547   .0708542     4.12   0.000     .1515317    .4321776
+              Y14 |    .272889   .0556487     4.90   0.000     .1626798    .3830983
+              Y15 |   .2196017   .0665636     3.30   0.001     .0877759    .3514275
+              Y16 |   .3120326   .0632439     4.93   0.000     .1867813    .4372838
+              Y17 |   .1714581   .0595695     2.88   0.005     .0534838    .2894323
+              Y18 |   .2380638   .0651177     3.66   0.000     .1091016     .367026
+              Y19 |   .2793134   .0653144     4.28   0.000     .1499615    .4086652
+              Y20 |   .2520128   .0651786     3.87   0.000     .1229299    .3810956
+              Y21 |   .2559347   .0593176     4.31   0.000     .1384593      .37341
+              Y22 |    .283081   .0604088     4.69   0.000     .1634445    .4027176
+              Y23 |   .2541892   .0627487     4.05   0.000     .1299187    .3784597
+              Y24 |   .2279972   .0545465     4.18   0.000     .1199708    .3360236
+              Y25 |   .1763901    .067994     2.59   0.011     .0417316    .3110486
+              Y26 |   .2300246   .0595941     3.86   0.000     .1120016    .3480476
+              Y27 |    .215931   .0550386     3.92   0.000     .1069299    .3249321
+              Y28 |   .1846702   .0715638     2.58   0.011     .0429418    .3263986
+              Y29 |    .170742   .0667492     2.56   0.012     .0385487    .3029353
+              Y30 |   .2551252   .0626388     4.07   0.000     .1310722    .3791781
+              Y31 |   .1604248   .0738998     2.17   0.032     .0140702    .3067794
+              Y32 |   .2297213   .0647134     3.55   0.001     .1015598    .3578828
+              Y33 |   .2096359   .0653164     3.21   0.002     .0802803    .3389916
+              Y34 |   .2451515    .067492     3.63   0.000     .1114872    .3788158
+              Y35 |   .2423318   .0693957     3.49   0.001     .1048974    .3797663
+              Y36 |   .1900841   .0819325     2.32   0.022     .0278211     .352347
+              Y37 |   .2069613   .0688384     3.01   0.003     .0706304    .3432921
+              Y38 |   .2227093   .0601529     3.70   0.000     .1035796    .3418391
+              Y39 |    .070161   .1017476     0.69   0.492    -.1313449    .2716668
+              Y40 |   .1930976   .0614395     3.14   0.002     .0714199    .3147752
+              Y41 |   .1143141   .0544102     2.10   0.038     .0065576    .2220706
+              Y42 |    .158578   .0591867     2.68   0.008     .0413619    .2757941
+              Y43 |   .2013497   .0620361     3.25   0.002     .0784905     .324209
+              Y44 |   .1829507   .0548306     3.34   0.001     .0743617    .2915398
+              Y45 |    .240483   .0476609     5.05   0.000     .1460931     .334873
+              Y46 |   .1682721    .047735     3.53   0.001     .0737355    .2628087
+              Y47 |   .2123233   .0551574     3.85   0.000      .103087    .3215597
+              Y48 |   .1402792     .05183     2.71   0.008     .0376326    .2429257
+              Y49 |    .137348   .0500241     2.75   0.007      .038278    .2364181
+              Y50 |   .1709309   .0562303     3.04   0.003     .0595697    .2822921
+              Y51 |   .2474045   .0531394     4.66   0.000     .1421646    .3526444
+              Y52 |   .1615689   .0544616     2.97   0.004     .0537105    .2694272
+              Y53 |   .1810297   .0514915     3.52   0.001     .0790536    .2830058
+              Y54 |   .1985422   .0501988     3.96   0.000     .0991262    .2979582
+              Y55 |   .0980193   .0617093     1.59   0.115    -.0241928    .2202314
+              Y56 |   .1425015   .0445349     3.20   0.002     .0543025    .2307005
+              Y57 |    .114013   .0441658     2.58   0.011      .026545     .201481
+              Y58 |   .1079067   .0491771     2.19   0.030     .0105139    .2052994
+              Y59 |   .1339719    .043779     3.06   0.003     .0472698     .220674
+              Y60 |   .1406507   .0445787     3.16   0.002     .0523649    .2289364
+              Y61 |   .1221606   .0488585     2.50   0.014      .025399    .2189223
+              Y62 |   .1670897   .0464074     3.60   0.000     .0751824    .2589971
+              Y63 |   .1042629   .0436663     2.39   0.019      .017784    .1907418
+              Y64 |   .1043734   .0426935     2.44   0.016     .0198212    .1889257
+              Y65 |   .1129982   .0412341     2.74   0.007     .0313362    .1946601
+              Y66 |   .0988737   .0441463     2.24   0.027     .0114442    .1863032
+              Y67 |   .0874955   .0439783     1.99   0.049     .0003988    .1745922
+              Y68 |   .0705281   .0397389     1.77   0.079    -.0081727     .149229
+              Y69 |   .0829608   .0492608     1.68   0.095    -.0145976    .1805191
+              Y70 |   .0911253    .040487     2.25   0.026      .010943    .1713076
+              Y71 |   .0641578   .0404572     1.59   0.115    -.0159655    .1442811
+              Y72 |   .1153214   .0417902     2.76   0.007      .032558    .1980848
+              Y73 |   .0791125   .0368376     2.15   0.034     .0061575    .1520674
+              Y74 |   .1130156   .0353993     3.19   0.002     .0429091    .1831221
+              Y75 |   .0506278   .0375176     1.35   0.180    -.0236738    .1249295
+              Y76 |   .0884223   .0335703     2.63   0.010      .021938    .1549065
+              Y77 |   .0330678   .0404967     0.82   0.416    -.0471339    .1132695
+              Y78 |   .0733361   .0359709     2.04   0.044     .0020976    .1445746
+              Y79 |   .0472791   .0340665     1.39   0.168    -.0201877    .1147459
+              Y80 |     .02732   .0326535     0.84   0.404    -.0373485    .0919885
+              Y81 |   .0135711   .0331211     0.41   0.683    -.0520235    .0791657
+              Y82 |   .0749963   .0362539     2.07   0.041     .0031974    .1467952
+              Y83 |  -.0102909   .0318549    -0.32   0.747     -.073378    .0527961
+              Y84 |   .0489002   .0357336     1.37   0.174    -.0218683    .1196688
+              Y85 |  -.0119804   .0307417    -0.39   0.697    -.0728627    .0489018
+              Y86 |   .0268192   .0334408     0.80   0.424    -.0394087     .093047
+              Y87 |  -.0052782   .0265146    -0.20   0.843    -.0577889    .0472325
+              Y88 |          0  (omitted)
+            _cons |   .5129889    .038971    13.16   0.000     .4358088     .590169
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (118 categories)
+.         local b_3 =  _b[city_manager_govt]
+.         local s_3 = _se[city_manager_govt]
+.         local n_3 =  e(N)
+.         areg r_city_manager_x city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      2,376
+                                                F(  88,    117)   =      34.00
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.6840
+                                                Adj R-squared     =     0.6541
+                                                Root MSE          =     0.1143
+
+                                (Std. Err. adjusted for 118 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+ r_city_manager_x |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |   .2850221   .0287042     9.93   0.000     .2281748    .3418693
+               Y1 |    .041934   .0294188     1.43   0.157    -.0163283    .1001964
+               Y2 |    .035106    .038017     0.92   0.358    -.0401847    .1103967
+               Y3 |   .0412197   .0317895     1.30   0.197    -.0217378    .1041771
+               Y4 |   .0465104    .029359     1.58   0.116    -.0116336    .1046543
+               Y5 |   .0071643   .0370301     0.19   0.847     -.066172    .0805006
+               Y6 |   .0412561    .036823     1.12   0.265      -.03167    .1141821
+               Y7 |    .040591   .0348445     1.16   0.246    -.0284167    .1095987
+               Y8 |   .0461861   .0324634     1.42   0.157     -.018106    .1104781
+               Y9 |   .0264695    .035421     0.75   0.456    -.0436799    .0966189
+              Y10 |   .0590305   .0308158     1.92   0.058    -.0019985    .1200596
+              Y11 |   .0379552   .0285718     1.33   0.187    -.0186298    .0945402
+              Y12 |   .0411771   .0394106     1.04   0.298    -.0368734    .1192277
+              Y13 |   .0562323    .031028     1.81   0.073     -.005217    .1176816
+              Y14 |   .0741156   .0317984     2.33   0.021     .0111404    .1370907
+              Y15 |   .0427412   .0326074     1.31   0.192     -.021836    .1073184
+              Y16 |   .0582587   .0316678     1.84   0.068    -.0044577    .1209751
+              Y17 |    .051536   .0310197     1.66   0.099    -.0098968    .1129689
+              Y18 |   .0574862    .030269     1.90   0.060      -.00246    .1174325
+              Y19 |   .0589193   .0295488     1.99   0.048     .0003995    .1174391
+              Y20 |   .0675449   .0301498     2.24   0.027     .0078348    .1272551
+              Y21 |   .0556531   .0293336     1.90   0.060    -.0024405    .1137467
+              Y22 |   .0654597   .0309842     2.11   0.037     .0040971    .1268223
+              Y23 |   .0768631   .0440706     1.74   0.084    -.0104163    .1641426
+              Y24 |   .0706703   .0316189     2.24   0.027     .0080507    .1332898
+              Y25 |   .0774758   .0325383     2.38   0.019     .0130354    .1419161
+              Y26 |   .0770384   .0316181     2.44   0.016     .0144203    .1396565
+              Y27 |   .0825211   .0333646     2.47   0.015     .0164442    .1485981
+              Y28 |    .098239   .0450445     2.18   0.031     .0090306    .1874474
+              Y29 |   .0985498    .047689     2.07   0.041     .0041042    .1929954
+              Y30 |   .0838883   .0447371     1.88   0.063    -.0047111    .1724877
+              Y31 |   .0767598    .047731     1.61   0.110    -.0177689    .1712885
+              Y32 |   .0676435   .0411391     1.64   0.103    -.0138304    .1491173
+              Y33 |   .0575372    .036001     1.60   0.113    -.0137609    .1288352
+              Y34 |   .0428542   .0335958     1.28   0.205    -.0236804    .1093888
+              Y35 |   .0490211   .0474829     1.03   0.304    -.0450162    .1430584
+              Y36 |   .1024294   .0567015     1.81   0.073    -.0098649    .2147238
+              Y37 |   .0685072   .0345434     1.98   0.050     .0000957    .1369187
+              Y38 |   .0862294   .0430624     2.00   0.048     .0009466    .1715122
+              Y39 |   .0919371   .0455364     2.02   0.046     .0017547    .1821196
+              Y40 |   .0710816   .0578118     1.23   0.221    -.0434116    .1855748
+              Y41 |   .0932562   .0540168     1.73   0.087    -.0137212    .2002335
+              Y42 |   .1163317   .0541076     2.15   0.034     .0091743     .223489
+              Y43 |   .0584109    .042923     1.36   0.176    -.0265958    .1434176
+              Y44 |   .0363839   .0366594     0.99   0.323     -.036218    .1089859
+              Y45 |   .0411806   .0409821     1.00   0.317    -.0399824    .1223436
+              Y46 |   .1054277   .0425086     2.48   0.015     .0212417    .1896137
+              Y47 |   .0830114   .0425551     1.95   0.053    -.0012667    .1672895
+              Y48 |   .0988807   .0326572     3.03   0.003     .0342047    .1635566
+              Y49 |   .1320811   .0430577     3.07   0.003     .0468075    .2173547
+              Y50 |   .1091402   .0530309     2.06   0.042     .0041153     .214165
+              Y51 |   .0934224   .0382687     2.44   0.016     .0176332    .1692117
+              Y52 |   .0434488    .036518     1.19   0.237    -.0288733    .1157708
+              Y53 |   .0624021   .0382095     1.63   0.105    -.0132698     .138074
+              Y54 |   .0879137   .0458718     1.92   0.058    -.0029329    .1787603
+              Y55 |   .1107016   .0407208     2.72   0.008     .0300562    .1913471
+              Y56 |   .1037223   .0355785     2.92   0.004     .0332609    .1741837
+              Y57 |   .1025442   .0397031     2.58   0.011     .0239142    .1811741
+              Y58 |     .13033   .0315955     4.12   0.000     .0677568    .1929033
+              Y59 |   .1164471   .0406988     2.86   0.005     .0358452     .197049
+              Y60 |   .0751142   .0333309     2.25   0.026     .0091041    .1411243
+              Y61 |   .1506966   .0452938     3.33   0.001     .0609945    .2403987
+              Y62 |   .0298675   .0394114     0.76   0.450    -.0481847    .1079197
+              Y63 |   .1298278    .042777     3.03   0.003     .0451102    .2145454
+              Y64 |   .1008186   .0409571     2.46   0.015     .0197053     .181932
+              Y65 |    .081854   .0399817     2.05   0.043     .0026722    .1610357
+              Y66 |   .1006803   .0404631     2.49   0.014     .0205454    .1808153
+              Y67 |   .0946457   .0378949     2.50   0.014     .0195969    .1696945
+              Y68 |   .1066097   .0328939     3.24   0.002     .0414651    .1717542
+              Y69 |   .0811516   .0304079     2.67   0.009     .0209304    .1413729
+              Y70 |    .074289     .03083     2.41   0.018     .0132318    .1353461
+              Y71 |   .0612102   .0318505     1.92   0.057     -.001868    .1242884
+              Y72 |   .0559692    .027245     2.05   0.042     .0020119    .1099265
+              Y73 |   .0406547   .0281069     1.45   0.151    -.0150095    .0963188
+              Y74 |   .0352788   .0253964     1.39   0.167    -.0150175     .085575
+              Y75 |    .060423   .0262599     2.30   0.023     .0084167    .1124294
+              Y76 |   .0061435   .0252928     0.24   0.809    -.0439474    .0562345
+              Y77 |   .0576424   .0302034     1.91   0.059    -.0021739    .1174587
+              Y78 |   .0213488   .0253068     0.84   0.401      -.02877    .0714675
+              Y79 |   .0383317   .0261498     1.47   0.145    -.0134566      .09012
+              Y80 |   .0065099   .0281607     0.23   0.818     -.049261    .0622807
+              Y81 |   .0188225    .024675     0.76   0.447    -.0300451      .06769
+              Y82 |   .0122895    .026825     0.46   0.648    -.0408361    .0654151
+              Y83 |   .0494578   .0258209     1.92   0.058    -.0016792    .1005949
+              Y84 |  -.0207139   .0245592    -0.84   0.401    -.0693521    .0279242
+              Y85 |  -.0006737   .0225217    -0.03   0.976    -.0452766    .0439293
+              Y86 |   .0023698   .0244767     0.10   0.923     -.046105    .0508445
+              Y87 |   .0252634   .0185691     1.36   0.176    -.0115117    .0620386
+              Y88 |          0  (omitted)
+            _cons |  -.0467883   .0302919    -1.54   0.125    -.1067798    .0132032
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (118 categories)
+.         local b_4 =  _b[city_manager_govt]
+.         local s_4 = _se[city_manager_govt]
+.         local n_4 =  e(N)
+.         areg r_city_council_x city_manager_govt Y*, a(state_city) cluster(state_city)
+note: Y88 omitted because of collinearity
+
+Linear regression, absorbing indicators         Number of obs     =      2,376
+                                                F(  88,    117)   =      15.11
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.5716
+                                                Adj R-squared     =     0.5311
+                                                Root MSE          =     0.1724
+
+                                (Std. Err. adjusted for 118 clusters in state_city)
+-----------------------------------------------------------------------------------
+                  |               Robust
+ r_city_council_x |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+------------------+----------------------------------------------------------------
+city_manager_govt |  -.0347077   .0431548    -0.80   0.423    -.1201736    .0507582
+               Y1 |  -.2824964   .0863769    -3.27   0.001    -.4535613   -.1114315
+               Y2 |  -.3124964   .0803154    -3.89   0.000    -.4715569   -.1534359
+               Y3 |  -.2539827   .0780913    -3.25   0.001    -.4086385    -.099327
+               Y4 |  -.3733896   .0579799    -6.44   0.000    -.4882158   -.2585634
+               Y5 |  -.2386832   .0741059    -3.22   0.002    -.3854461   -.0919202
+               Y6 |  -.2705386    .079922    -3.39   0.001    -.4288199   -.1122574
+               Y7 |  -.3535943   .0665697    -5.31   0.000    -.4854321   -.2217564
+               Y8 |  -.3303459   .0598154    -5.52   0.000    -.4488071   -.2118846
+               Y9 |  -.2789296    .080869    -3.45   0.001    -.4390864   -.1187728
+              Y10 |  -.2845711   .0691764    -4.11   0.000    -.4215712   -.1475709
+              Y11 |  -.3427876   .0653582    -5.24   0.000    -.4722261   -.2133491
+              Y12 |  -.2890109   .0814215    -3.55   0.001    -.4502619   -.1277599
+              Y13 |   -.348087   .0726223    -4.79   0.000    -.4919116   -.2042623
+              Y14 |  -.3470046   .0619852    -5.60   0.000    -.4697631   -.2242462
+              Y15 |  -.2623429    .067987    -3.86   0.000    -.3969875   -.1276983
+              Y16 |  -.3702912   .0668467    -5.54   0.000    -.5026776   -.2379048
+              Y17 |  -.2229941   .0649739    -3.43   0.001    -.3516714   -.0943168
+              Y18 |    -.29555   .0688222    -4.29   0.000    -.4318487   -.1592513
+              Y19 |  -.3382327   .0685049    -4.94   0.000     -.473903   -.2025624
+              Y20 |  -.3195577    .066625    -4.80   0.000     -.451505   -.1876104
+              Y21 |  -.3115878   .0642666    -4.85   0.000    -.4388644   -.1843111
+              Y22 |  -.3485407   .0629458    -5.54   0.000    -.4732016   -.2238799
+              Y23 |  -.3310524   .0564806    -5.86   0.000    -.4429092   -.2191955
+              Y24 |  -.2986675   .0569695    -5.24   0.000    -.4114926   -.1858423
+              Y25 |  -.2538659   .0748763    -3.39   0.001    -.4021545   -.1055772
+              Y26 |   -.307063   .0623372    -4.93   0.000    -.4305186   -.1836075
+              Y27 |  -.2984521   .0555488    -5.37   0.000    -.4084635   -.1884407
+              Y28 |  -.2829092   .0672344    -4.21   0.000    -.4160635    -.149755
+              Y29 |  -.2692918   .0582456    -4.62   0.000    -.3846441   -.1539395
+              Y30 |  -.3390135   .0576276    -5.88   0.000    -.4531419    -.224885
+              Y31 |  -.2371845    .073637    -3.22   0.002    -.3830187   -.0913504
+              Y32 |  -.2973648   .0703586    -4.23   0.000    -.4367063   -.1580232
+              Y33 |  -.2671731   .0678524    -3.94   0.000    -.4015512    -.132795
+              Y34 |  -.2880057   .0750136    -3.84   0.000    -.4365663   -.1394451
+              Y35 |   -.291353   .0723402    -4.03   0.000    -.4346189    -.148087
+              Y36 |  -.2925135   .0843103    -3.47   0.001    -.4594857   -.1255413
+              Y37 |  -.2754685   .0758372    -3.63   0.000    -.4256601   -.1252768
+              Y38 |  -.3089387   .0720539    -4.29   0.000    -.4516376   -.1662398
+              Y39 |  -.1620981   .0920292    -1.76   0.081    -.3443571     .020161
+              Y40 |  -.2641791   .0604152    -4.37   0.000    -.3838284   -.1445299
+              Y41 |  -.2075703   .0553767    -3.75   0.000    -.3172409   -.0978997
+              Y42 |  -.2749097   .0643493    -4.27   0.000    -.4023501   -.1474693
+              Y43 |  -.2597607   .0613014    -4.24   0.000    -.3811649   -.1383564
+              Y44 |  -.2193347   .0731626    -3.00   0.003    -.3642294   -.0744399
+              Y45 |  -.2816636   .0432448    -6.51   0.000    -.3673076   -.1960196
+              Y46 |  -.2736998   .0456803    -5.99   0.000    -.3641672   -.1832324
+              Y47 |  -.2953348   .0500655    -5.90   0.000    -.3944868   -.1961827
+              Y48 |  -.2391598   .0540036    -4.43   0.000    -.3461111   -.1322085
+              Y49 |  -.2694291   .0499145    -5.40   0.000    -.3682823    -.170576
+              Y50 |  -.2800711   .0630837    -4.44   0.000     -.405005   -.1551372
+              Y51 |   -.340827   .0520183    -6.55   0.000    -.4438464   -.2378075
+              Y52 |  -.2050176   .0594331    -3.45   0.001    -.3227217   -.0873136
+              Y53 |  -.2434318     .04974    -4.89   0.000    -.3419393   -.1449243
+              Y54 |  -.2864559     .05152    -5.56   0.000    -.3884886   -.1844232
+              Y55 |  -.2087209   .0576451    -3.62   0.000    -.3228841   -.0945577
+              Y56 |  -.2462238   .0487465    -5.05   0.000    -.3427636    -.149684
+              Y57 |  -.2165571   .0478206    -4.53   0.000    -.3112633   -.1218509
+              Y58 |  -.2382367   .0510763    -4.66   0.000    -.3393905   -.1370829
+              Y59 |   -.250419   .0504612    -4.96   0.000    -.3503548   -.1504831
+              Y60 |  -.2157648   .0487253    -4.43   0.000    -.3122627    -.119267
+              Y61 |  -.2728572   .0469014    -5.82   0.000    -.3657429   -.1799715
+              Y62 |  -.1969572   .0476339    -4.13   0.000    -.2912937   -.1026208
+              Y63 |  -.2340907   .0451534    -5.18   0.000    -.3235146   -.1446668
+              Y64 |  -.2051921   .0477565    -4.30   0.000    -.2997713   -.1106128
+              Y65 |  -.1948521    .045847    -4.25   0.000    -.2856497   -.1040545
+              Y66 |   -.199554   .0405721    -4.92   0.000    -.2799049    -.119203
+              Y67 |  -.1821412   .0474808    -3.84   0.000    -.2761745   -.0881079
+              Y68 |  -.1771378   .0450127    -3.94   0.000    -.2662831   -.0879925
+              Y69 |  -.1641124   .0486167    -3.38   0.001    -.2603953   -.0678295
+              Y70 |  -.1654143   .0427917    -3.87   0.000    -.2501609   -.0806676
+              Y71 |  -.1253679    .039931    -3.14   0.002    -.2044492   -.0462867
+              Y72 |  -.1712905   .0404815    -4.23   0.000     -.251462   -.0911191
+              Y73 |  -.1197671    .039021    -3.07   0.003    -.1970461   -.0424881
+              Y74 |  -.1482944   .0360504    -4.11   0.000    -.2196904   -.0768984
+              Y75 |  -.1110509   .0416442    -2.67   0.009    -.1935249   -.0285768
+              Y76 |  -.0945658   .0371135    -2.55   0.012    -.1680671   -.0210645
+              Y77 |  -.0907102   .0424447    -2.14   0.035    -.1747697   -.0066507
+              Y78 |  -.0946849   .0369905    -2.56   0.012    -.1679427   -.0214271
+              Y79 |  -.0856108   .0363359    -2.36   0.020    -.1575722   -.0136493
+              Y80 |  -.0338299   .0340603    -0.99   0.323    -.1012844    .0336247
+              Y81 |  -.0323936   .0344224    -0.94   0.349    -.1005654    .0357782
+              Y82 |  -.0872858   .0351534    -2.48   0.014    -.1569053   -.0176663
+              Y83 |  -.0391669   .0348135    -1.13   0.263    -.1081132    .0297795
+              Y84 |  -.0281863   .0365377    -0.77   0.442    -.1005473    .0441747
+              Y85 |   .0126541   .0330494     0.38   0.703    -.0527985    .0781067
+              Y86 |  -.0291889    .032526    -0.90   0.371     -.093605    .0352271
+              Y87 |  -.0199852   .0274945    -0.73   0.469    -.0744367    .0344663
+              Y88 |          0  (omitted)
+            _cons |   .5337994   .0433881    12.30   0.000     .4478716    .6197272
+------------------+----------------------------------------------------------------
+       state_city |   absorbed                                     (118 categories)
+.         
+.         
+.         
+.         quietly {
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ opened on:  19 Apr 2017, 14:53:32
+.         
+.         **produce dta for graph
+.         use `tmp1', clear
+.         
+.         gen city_manager_govt = (year >= first_year)
+.         
+.         gen t = year - first_year + .5
+(21,451 missing values generated)
+.         
+.         foreach z in "mayor" "city_manager" "city_council" {
+  2.                 egen mean_`z'_tmp = sum(`z') if city_manager_govt == 0, by(year)
+  3.                 egen control_mean_`z' = max(mean_`z'_tmp), by(year)
+  4.                 drop mean_`z'_tmp
+  5.         }
+(3256 missing values generated)
+(3256 missing values generated)
+(3256 missing values generated)
+.         
+.         drop if state == ""
+(0 observations deleted)
+.         
+.         collapse (sum) mayor city_manager city_council mayor_x city_manager_x city_council_x control_*, by(state city t)
+.         
+.         egen total   = rsum(mayor   city_manager   city_council)
+.         egen total_x = rsum(mayor_x city_manager_x city_council_x)
+.         egen total_control = rsum(control_mean_mayor control_mean_city_manager control_mean_city_council)
+.         
+.         keep if t >= -20 & t <= 20
+(5,826 observations deleted)
+.         
+.         foreach i of varlist mayor city_manager city_council {
+  2.           gen r_`i'  = `i'/total if total >= 50
+  3.         }
+(2,106 missing values generated)
+(2,106 missing values generated)
+(2,106 missing values generated)
+.         
+.         foreach i of varlist mayor_x city_manager_x city_council_x {
+  2.           gen r_`i'  = `i'/total_x if total_x >= 10
+  3.         }
+(2,469 missing values generated)
+(2,469 missing values generated)
+(2,469 missing values generated)
+.         
+.         foreach i of varlist mayor city_manager city_council {
+  2.           gen r_control_`i'  = control_mean_`i'/total_control if total_control >= 50
+  3.         }
+.         
+.         egen xmin = min(t), by(state city)
+.         egen xmax = max(t), by(state city)
+.         sort state city t
+.         list state city if city != city[_n-1] & xmin < 0 & xmax > 0, noo nod
+
+  +---------------------------+
+  | state                city |
+  |---------------------------|
+  |    AK           FAIRBANKS |
+  |    AL            ANNISTON |
+  |    AR              CAMDEN |
+  |    AR        FAYETTEVILLE |
+  |    AR                HOPE |
+  |---------------------------|
+  |    AZ         CASA GRANDE |
+  |    AZ           FLAGSTAFF |
+  |    AZ             PHOENIX |
+  |    AZ                YUMA |
+  |    CA             ARCADIA |
+  |---------------------------|
+  |    CA         BAKERSFIELD |
+  |    CA              EUREKA |
+  |    CA              FRESNO |
+  |    CA             OAKLAND |
+  |    CA              OXNARD |
+  |---------------------------|
+  |    CA          SANTA CRUZ |
+  |    CO             GREELEY |
+  |    FL               MIAMI |
+  |    FL         PANAMA CITY |
+  |    IL               ALTON |
+  |---------------------------|
+  |    IL   ARLINGTON HEIGHTS |
+  |    IL          CARBONDALE |
+  |    IL           GALESBURG |
+  |    IL        MOUNT VERNON |
+  |    IL            PALATINE |
+  |---------------------------|
+  |    KS            ATCHISON |
+  |    KS          BELLEVILLE |
+  |    KS             EMPORIA |
+  |    KS                HAYS |
+  |    KS          HUTCHINSON |
+  |---------------------------|
+  |    KS             KINSLEY |
+  |    KS             WICHITA |
+  |    KS            WINFIELD |
+  |    MI            ESCANABA |
+  |    MI             HOLLAND |
+  |---------------------------|
+  |    MI            IRONWOOD |
+  |    MI           LUDINGTON |
+  |    MI        SAINT JOSEPH |
+  |    MI       TRAVERSE CITY |
+  |    MN              WINONA |
+  |---------------------------|
+  |    MO              JOPLIN |
+  |    MO         KANSAS CITY |
+  |    MO           MARYVILLE |
+  |    MO              MEXICO |
+  |    MO             MOBERLY |
+  |---------------------------|
+  |    MO              NEOSHO |
+  |    MT              HELENA |
+  |    NC           ASHEVILLE |
+  |    NC          BURLINGTON |
+  |    NC         CHAPEL HILL |
+  |---------------------------|
+  |    NC              DURHAM |
+  |    NC            GASTONIA |
+  |    NC           GOLDSBORO |
+  |    NC          GREENSBORO |
+  |    NC      HENDERSONVILLE |
+  |---------------------------|
+  |    NC             HICKORY |
+  |    NC          HIGH POINT |
+  |    NC           LUMBERTON |
+  |    NC           MORGANTON |
+  |    NC          REIDSVILLE |
+  |---------------------------|
+  |    NC           SALISBURY |
+  |    NC         STATESVILLE |
+  |    NC         THOMASVILLE |
+  |    NC          WILMINGTON |
+  |    NE            ALLIANCE |
+  |---------------------------|
+  |    NH          PORTSMOUTH |
+  |    NM         ALBUQUERQUE |
+  |    NM             CLAYTON |
+  |    NM              CLOVIS |
+  |    NV                RENO |
+  |---------------------------|
+  |    NY         CANANDAIGUA |
+  |    NY                TROY |
+  |    OH            HAMILTON |
+  |    OH               PIQUA |
+  |    OH          PORTSMOUTH |
+  |---------------------------|
+  |    OH            SANDUSKY |
+  |    OH               XENIA |
+  |    OK                 ADA |
+  |    OK              LAWTON |
+  |    OK            MUSKOGEE |
+  |---------------------------|
+  |    OK            SALLISAW |
+  |    OR               SALEM |
+  |    PA             ALTOONA |
+  |    PA            OIL CITY |
+  |    PA           POTTSTOWN |
+  |---------------------------|
+  |    RI             NEWPORT |
+  |    SC           GREENWOOD |
+  |    SC              SUMTER |
+  |    TX             ABILENE |
+  |    TX            AMARILLO |
+  |---------------------------|
+  |    TX              BONHAM |
+  |    TX         BROWNSVILLE |
+  |    TX               BRYAN |
+  |    TX      CORPUS CHRISTI |
+  |    TX             DEL RIO |
+  |---------------------------|
+  |    TX              DENTON |
+  |    TX           GALVESTON |
+  |    TX           HARLINGEN |
+  |    TX             LUBBOCK |
+  |    TX               MEXIA |
+  |---------------------------|
+  |    TX              ODESSA |
+  |    TX               PARIS |
+  |    TX         SAN ANTONIO |
+  |    TX              TAYLOR |
+  |    TX                WACO |
+  |---------------------------|
+  |    TX          WAXAHACHIE |
+  |    UT               OGDEN |
+  |    UT               PROVO |
+  |    VA            DANVILLE |
+  |    VA            STAUNTON |
+  |---------------------------|
+  |    WI          JANESVILLE |
+  |    WI             MADISON |
+  |    WI             OSHKOSH |
+  |    WI         RHINELANDER |
+  |    WV           BLUEFIELD |
+  +---------------------------+
+.         
+.         gen rel_mayor_council_total = r_city_council + r_mayor
+(2,106 missing values generated)
+.         gen rel_mayor_council_control_total = r_control_city_council + r_control_mayor
+.         gen rel_mayor_council = r_mayor / rel_mayor_council_total
+(2,106 missing values generated)
+.         gen rel_mayor_council_control = r_control_mayor / rel_mayor_council_control_total
+.         
+.         gen rel_mayor_council_total_x = r_city_council_x + r_mayor
+(2,590 missing values generated)
+.         gen rel_mayor_council_x = r_mayor_x / rel_mayor_council_total_x  
+(2,590 missing values generated)
+.         
+.         collapse (mean) r_mayor r_city_manager r_city_council r_mayor_x r_city_manager_x r_city_council_x r_control* rel_mayor_council rel_mayor_council_control rel_mayor_council_x (semean) r_mayor_sd=r_mayor r_city_manager_sd=r_city_manager r_city_coun
+> cil_sd=r_city_council r_mayor_x_sd=r_mayor_x r_city_manager_x_sd=r_city_manager_x r_city_council_x_sd=r_city_council_x r_control_mayor_sd=r_control_mayor r_control_city_council_sd=r_control_city_council r_control_city_manager_sd=r_control_city_manager r
+> el_mayor_council_sd=rel_mayor_council rel_mayor_council_control_sd=rel_mayor_council_control rel_mayor_council_x_sd=rel_mayor_council_x, by(t)
+.         
+.         saveold for_mayor_r_graph, replace version(12)
+(saving in Stata 12 format, which can be read by Stata 11 or 12)
+(note: file for_mayor_r_graph.dta not found)
+file for_mayor_r_graph.dta saved
+. }
+
+. 
+. 
+. 
+. 
+. ********************************************************************************
+. * Relative Coverage of Congress in Tariff Policymaking
+. ********************************************************************************
+. 
+. if `make_rtaa'==1 {
+.         use hits_tariff, clear
+.         keep if year >= 1880 & year<=1975
+(394 observations deleted)
+.         
+.         gen t = year - mod(year,5)
+.         collapse (sum) cong pres, by(t)
+.         
+.         gen r = cong/(cong+pres)
+.         
+.         reg r t if t < 1932.5
+
+      Source |       SS           df       MS      Number of obs   =        11
+-------------+----------------------------------   F(1, 9)         =      0.06
+       Model |  .000424596         1  .000424596   Prob > F        =    0.8045
+    Residual |  .058820338         9  .006535593   R-squared       =    0.0072
+-------------+----------------------------------   Adj R-squared   =   -0.1031
+       Total |  .059244934        10  .005924493   Root MSE        =    .08084
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           t |   .0003929   .0015416     0.25   0.805    -.0030944    .0038803
+       _cons |  -.1839297   2.936879    -0.06   0.951    -6.827612    6.459753
+------------------------------------------------------------------------------
+.         predict r1 if e(sample)
+(option xb assumed; fitted values)
+(9 missing values generated)
+.         
+.         reg r t if t > 1932.5
+
+      Source |       SS           df       MS      Number of obs   =         9
+-------------+----------------------------------   F(1, 7)         =      0.09
+       Model |  .000160055         1  .000160055   Prob > F        =    0.7766
+    Residual |  .012880081         7  .001840012   R-squared       =    0.0123
+-------------+----------------------------------   Adj R-squared   =   -0.1288
+       Total |  .013040136         8  .001630017   Root MSE        =     .0429
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           t |   .0003267   .0011076     0.29   0.777    -.0022923    .0029456
+       _cons |  -.1916989   2.165314    -0.09   0.932    -5.311853    4.928455
+------------------------------------------------------------------------------
+.         predict r2 if e(sample)
+(option xb assumed; fitted values)
+(11 missing values generated)
+.         
+.         scatter r r1 r2 t , xline(1932.5) s(i i i) mlab(t) mlabpos(0) mlabsize(*.80) c(. l l) legend(off) xtitle(Period) ytitle(Relative Mentions of Cong vs. Pres on Tariff)
+.         
+.         gen tt = t - 1935
+.         gen post = tt >= 0 if tt != .
+.         gen post_tt = post * tt
+.         
+.         reg r post
+
+      Source |       SS           df       MS      Number of obs   =        20
+-------------+----------------------------------   F(1, 18)        =     17.08
+       Model |  .068574736         1  .068574736   Prob > F        =    0.0006
+    Residual |   .07228507        18  .004015837   R-squared       =    0.4868
+-------------+----------------------------------   Adj R-squared   =    0.4583
+       Total |  .140859806        19  .007413674   Root MSE        =    .06337
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        post |  -.1177008    .028483    -4.13   0.001    -.1775413   -.0578603
+       _cons |   .5646128    .019107    29.55   0.000     .5244706    .6047551
+------------------------------------------------------------------------------
+.         reg r post
+
+      Source |       SS           df       MS      Number of obs   =        20
+-------------+----------------------------------   F(1, 18)        =     17.08
+       Model |  .068574736         1  .068574736   Prob > F        =    0.0006
+    Residual |   .07228507        18  .004015837   R-squared       =    0.4868
+-------------+----------------------------------   Adj R-squared   =    0.4583
+       Total |  .140859806        19  .007413674   Root MSE        =    .06337
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        post |  -.1177008    .028483    -4.13   0.001    -.1775413   -.0578603
+       _cons |   .5646128    .019107    29.55   0.000     .5244706    .6047551
+------------------------------------------------------------------------------
+.         reg r post tt
+
+      Source |       SS           df       MS      Number of obs   =        20
+-------------+----------------------------------   F(2, 17)        =      8.20
+       Model |  .069155123         2  .034577562   Prob > F        =    0.0032
+    Residual |  .071704683        17  .004217923   R-squared       =    0.4910
+-------------+----------------------------------   Adj R-squared   =    0.4311
+       Total |  .140859806        19  .007413674   Root MSE        =    .06495
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        post |  -.1361779   .0577342    -2.36   0.031    -.2579864   -.0143695
+          tt |   .0003695   .0009962     0.37   0.715    -.0017323    .0024714
+       _cons |   .5756991   .0357303    16.11   0.000     .5003148    .6510835
+------------------------------------------------------------------------------
+.         reg r post tt post_tt
+
+      Source |       SS           df       MS      Number of obs   =        20
+-------------+----------------------------------   F(3, 16)        =      5.14
+       Model |  .069159387         3  .023053129   Prob > F        =    0.0111
+    Residual |  .071700419        16  .004481276   R-squared       =    0.4910
+-------------+----------------------------------   Adj R-squared   =    0.3955
+       Total |  .140859806        19  .007413674   Root MSE        =    .06694
+
+------------------------------------------------------------------------------
+           r |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        post |   -.136022   .0597237    -2.28   0.037    -.2626305   -.0094135
+          tt |   .0003929   .0012765     0.31   0.762    -.0023132    .0030991
+     post_tt |  -.0000663   .0021487    -0.03   0.976    -.0046214    .0044888
+       _cons |   .5764009   .0432896    13.32   0.000     .4846311    .6681707
+------------------------------------------------------------------------------
+.         
+.         saveold for_tariff_r_graph, version(12) replace
+(saving in Stata 12 format, which can be read by Stata 11 or 12)
+(note: file for_tariff_r_graph.dta not found)
+file for_tariff_r_graph.dta saved
+. }
+
+. 
+. 
+. 
+. ********************************************************************************
+. * Party Committee Power Over Time in Nine U.S. States
+. ********************************************************************************
+. 
+. 
+. if `make_party_committee' == 1 {
+.         
+.         use hits_candidates.dta, clear
+.         merge 1:1 state year using hits_partycommittee
+(note: variable state was str2, now str15 to accommodate using data's values)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           426
+        from master                         1  (_merge==1)
+        from using                        425  (_merge==2)
+
+    matched                             4,194  (_merge==3)
+    -----------------------------------------
+.         keep if _merge==3
+(426 observations deleted)
+.         drop _merge
+.         drop if state == "DC" | state =="V" | state=="Victoria" | state=="NSW" | state=="New South Wales"
+(46 observations deleted)
+.         * drop obs for states before they were admitted to the union
+.         drop if state == "ND" & year < 1889
+(12 observations deleted)
+.         drop if state == "SD" & year < 1889
+(10 observations deleted)
+.         drop if state == "MT" & year < 1889
+(12 observations deleted)
+.         drop if state == "WA" & year < 1888
+(8 observations deleted)
+.         drop if state == "ID" & year < 1900
+(9 observations deleted)
+.         drop if state == "WY" & year < 1900
+(0 observations deleted)
+.         drop if state == "UT" & year < 1896
+(17 observations deleted)
+.         drop if state == "OK" & year < 1907
+(27 observations deleted)
+.         drop if state == "AZ" & year < 1912
+(35 observations deleted)
+.         drop if state == "NM" & year < 1912
+(31 observations deleted)
+.         drop if state == "AK" & year < 1958
+(33 observations deleted)
+.         drop if state == "HI" & year < 1958
+(46 observations deleted)
+.         
+.         merge m:1 state using Mayhew_TPO_Scores
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             2
+        from master                         0  (_merge==1)
+        from using                          2  (_merge==2)
+
+    matched                             3,908  (_merge==3)
+    -----------------------------------------
+.         drop if _merge==2
+(2 observations deleted)
+.         drop _merge     
+.         
+.         gen n_othr = democ_othr + repub_othr
+.         gen party_power = 100*n_othr/(n_othr + candidate_hits) if candidate_hits>500
+(1,067 missing values generated)
+. 
+.         egen x = mean(party_power), by(state)
+(22 missing values generated)
+.         gen party_power_norm = party_power/x
+(1,067 missing values generated)
+.         
+.         keep state year party_power_norm
+.         saveold for_partycommittee_r_graph, version(12) replace
+(saving in Stata 12 format, which can be read by Stata 11 or 12)
+(note: file for_partycommittee_r_graph.dta not found)
+file for_partycommittee_r_graph.dta saved
+. }
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ closed on:  19 Apr 2017, 14:53:35
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ opened on:  19 Apr 2017, 14:53:44
+
+. 
+. ********************************************************************************
+. * This do-file replicates the appendix tables and figures in
+. * "How Newspapers Reveal Political Power" (Ban, Fouirnaies, Hall, Snyder)
+. *
+. * Produces:
+. * Table A.1: Number of Pages, Newspapers, and Counties in Dataset by State
+. * Table A.2: The 50 Most Common Newspapers in Dataset
+. * Figure A.1: Geographical Distribution of Pages and Newspapers in Dataset
+. * Figure A.2: Yearly Number of Pages in Sample by Region
+. *
+. * November 20, 2016
+. ********************************************************************************
+. 
+. set more off
+
+.         
+. ********************************************************************************
+. * Table A.1: Number of Pages, Newspapers, and Counties in Dataset by State     
+. ********************************************************************************
+. 
+. use DescriptiveStatsMetadata_25years, clear
+
+. replace pages = pages/1000
+(190 real changes made)
+
+. reshape wide pages newspapers counties, i(state) j(period)
+(note: j = 1877 1902 1927 1952)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      190   ->      50
+Number of variables                   5   ->      13
+j variable (4 values)            period   ->   (dropped)
+xij variables:
+                                  pages   ->   pages1877 pages1902 ... pages1952
+                             newspapers   ->   newspapers1877 newspapers1902 ... newspapers1952
+                               counties   ->   counties1877 counties1902 ... counties1952
+-----------------------------------------------------------------------------
+
+. foreach var of varlist pages* newspapers* counties* {
+  2.         replace `var' = 0  if `var'==.
+  3. }
+(2 real changes made)
+(1 real change made)
+(4 real changes made)
+(3 real changes made)
+(2 real changes made)
+(1 real change made)
+(4 real changes made)
+(3 real changes made)
+(2 real changes made)
+(1 real change made)
+(4 real changes made)
+(3 real changes made)
+
+. sort state
+
+. 
+. quietly {
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pamelaban/Dropbox/newspapers_power/PSRM_replication/dataverse_upload/log_stata_files.log
+  log type:  text
+ opened on:  19 Apr 2017, 14:53:44
+
+. 
+. ********************************************************************************
+. * Table A.2: The 50 Most Common Newspapers in Dataset
+. ********************************************************************************
+. 
+. use newspaper_summary, clear
+
+. 
+. drop if regexm(newspaper, "Winnipeg") == 1
+(1 observation deleted)
+
+. 
+. sum min_year
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+    min_year |      3,146    1892.496    36.48654       1700       2009
+
+. local m = r(N)
+
+. 
+. replace newspaper = regexr(newspaper, "\&", "\&")
+(3 real changes made)
+
+. 
+. *** rank in terms of occurrences
+. gsort -occurrences
+
+. gen rank = _n
+
+. 
+. *** get rid of "The" for sorting alphabetically
+. gen newspaper_sort_name = newspaper
+
+. replace newspaper_sort_name = regexr(newspaper, "^The ", "")
+(1,756 real changes made)
+
+. sort newspaper_sort_name
+
+. 
+. *** table can only fit top 50
+. keep if rank <= 50
+(3,096 observations deleted)
+
+. 
+. cap log close

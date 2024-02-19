@@ -1,0 +1,1098 @@
+state,city,first_year,last_year,good_case
+AK,ANCHORAGE,1946,,currently council-manager
+AK,FAIRBANKS,1947,,***** home rule city
+AK,NOME,1965,.,currently council-manager
+AK,SITKA,,
+AL,ANNISTON,1969,,***** currently ???
+AL,BESSEMER,,,currently mayor-council
+AL,BREWTON,1947,,
+AL,DOTHAN,1958,,
+AL,MOUNTAIN BROOK,1942,,
+AL,SYLACAUGA,1942,,
+AR,ARKADELPHIA,,,
+AR,BENTON,,,
+AR,BENTONVILLE,,,
+AR,BLYTHEVILLE,,,***** currently ???
+AR,CAMDEN,1959,,*****
+AR,FAYETTEVILLE,1967,,***** currently ???
+AR,HOPE,1957,.,*****
+AR,HOT SPRINGS,1986,.,*****
+AR,LITTLE ROCK,1957,.,
+AR,MALVERN,,,
+AR,MARIANNA,1925,,
+AR,MAUMELLE,,,
+AR,NEWPORT,,,
+AR,TEXARKANA,,.,
+AZ,BISBEE,,,***** currently council-manager						xxxxx adopted post-1922
+AZ,CASA GRANDE,1954,,*****
+AZ,FLAGSTAFF,1958,,***** currently council-manager
+AZ,PHOENIX,1914,,***** currently council-manager
+AZ,PRESCOTT,1954,
+AZ,TUCSON,1930,,***** currently council-manager
+AZ,YUMA,1970,,
+CA,ALAMEDA,1917,,
+CA,ALHAMBRA,1916,,
+CA,ARCADIA,1951,,***** currently council-manager
+CA,ARCATA,,,
+CA,AUBURN,1948?,,
+CA,AVALON,1947,,
+CA,BAKERSFIELD,1915,,***** currently council-manager
+CA,BERKELEY,1923,,
+CA,BURBANK,1927,,
+CA,CHICO,1923,,
+CA,COMPTON,1925,,
+CA,CORONADO,1920,,
+CA,CULVER CITY,2009,,
+CA,DELANO,1946,,
+CA,EUREKA,1959,,***** currently council-manager
+CA,FILLMORE,1918,,
+CA,FREMONT,,,***** currently council-manager						xxxxx adopted pre-1965?
+CA,FRESNO,1958,,***** currently hybrid mayor-council
+CA,GLENDALE,1914,,currently council-manager
+CA,HAYWARD,1948?,,
+CA,HILLSBOROUGH,1928,,
+CA,HUNTINGTON BEACH,,,
+CA,LONG BEACH,1921,,***** currently council-manager
+CA,LOS ANGELES,.,.,***** currently mayor-council-commission
+CA,LYNWOOD,1945,,
+CA,MENLO PARK,1948?,,
+CA,MILL VALLEY,1942,,
+CA,MILPITAS,1954,
+CA,MODESTO,,,***** currently council-manager with directly elected mayor
+CA,MONTEREY,1925,,
+CA,OAKLAND,1931,1999,***** currently hybrid council-manager with strong mayor
+CA,ONTARIO,1944,,
+CA,OXNARD,1947,,
+CA,PACIFIC GROVE,1927,,
+CA,PALM SPRINGS,1941,,
+CA,PALO ALTO,1950,,
+CA,PASADENA,1921,,***** currently council-manager
+CA,PETALUMA,1948?,,
+CA,PITTSBURG,1919,,
+CA,POMONA,,,***** currently council-manager
+CA,PORTERVILLE,1927,,
+CA,REDLANDS,,,***** currently council-manager						xxxxx adopted pre-1952?
+CA,REDDING,1946,,
+CA,REDWOOD CITY,1929,,
+CA,RICHMOND,1920,,
+CA,ROSEVILLE,1956,,
+CA,SACRAMENTO,1921,,***** currently council-manager
+CA,SACRAMENTO COUNTY,1933,,
+CA,SALINAS,1936,,
+CA,SAN ALNSELMO,,,
+CA,SAN BERNARDINO,,,***** currently hybrid council-manager with strong mayor
+CA,SAN DIEGO,1932,2006,currently mayor-council
+CA,SAN FRANCISCO,.,.,***** currently mayor-council
+CA,SAN JOSE,1916,.,*****
+CA,SAN LEANDRO,1928,,
+CA,SAN MATEO,1923,,***** currently council-manager
+CA,SAN RAFAEL,,,***** currently council-manager with directly elected mayor
+CA,SANTA ANA,1952,,***** currently council-manager
+CA,SANTA BARBARA,1917,,
+CA,SANTA CRUZ,1948,,***** currently council-manager
+CA,SANTA MONICA,1947,,
+CA,SANTA ROSA,1923,,
+CA,SOUTH PASADENA,1920,,
+CA,STOCKTON,1950,,xxx really started in 1923?
+CA,TULARE,1923,,
+CA,UKIAH,,,***** currently council-manager						xxxxx adopted pre-1946?
+CA,UPLAND,1930,,
+CA,VALLEJO,1947,,
+CA,VAN NUYS,,,***** currently ???
+CA,VENTURA,1933,,
+CA,VISALIA,1923
+CA,WALNUT CREEK,1956,,
+CA,WOODLANDS,1948,,
+CO,ARVADA,1961,,
+CO,BOULDER,1918,,
+CO,CANON CITY,1948?,,
+CO,COLORADO SPRINGS,1921,2011,***** currently mayor-council
+CO,DURANGO,1915,,
+CO,FORT COLLINS,1939,,
+CO,GLENWOOD SPRINGS,1947,,***** currently council-manager
+CO,GOLDEN,1948?,,
+CO,GRAND JUNCTION,1922,,currently council-manager
+CO,GREELEY,1951,,***** currently council-manager
+CO,LA JUNTA,1948?,,
+CO,MONTE VISTA,1922,,
+CO,MONTROSE,1914,,
+CO,PUEBLO,1950,,
+CO,TRINIDAD,1948?,,
+CT,BLOOMFIELD,1941,,
+CT,BRIDGEPORT,.,.,***** currently mayor-council
+CT,FARMINGTON,1948?,,
+CT,KILLINGLY (DANIELSON),1939,,
+CT,MANCHESTER,1948?,,
+CT,NAUGATUCK,,,***** currently mayor-burgesses
+CT,NEW LONDON,1921,,
+CT,SOUTH WINDSOR,1962,,,
+CT,STRATFORD,1921,,
+CT,WEST HARTFORD,1935,,
+CT,WINDSOR,1948?,,
+DC,WASHINGTON,,,***** currently mayor-council
+DE,DOVER,1929,,
+DE,MILFORD,1932,,
+DE,REHOBOTH BEACH,1937,,
+FL,ALACHUA,1923,,
+FL,BARTOW,1922,,
+FL,CLEARWATER,1923,,
+FL,COCOA,1946,,
+FL,CORAL GABLES,1925,,
+FL,DAYTONA BEACH,1922,,
+FL,DELRAY BEACH,1946,,
+FL,DUNEDIN,1926,,
+FL,FERNANDINA,1923,,
+FL,FORT LAUDERDALE,1925,,
+FL,FORT MEADE,1925,,
+FL,FORT PIERCE,1923,,***** currently council-manager
+FL,FORT WALTON BEACH,,,***** currently council-manager
+FL,GAINESVILLE,1921,,
+FL,GARY,,,
+FL,GREEN COVE SPRINGS,1946,,
+FL,GULFPORT,1955,,
+FL,HAINES CITY,1925,,
+FL,HOLLYWOOD,1926,,
+FL,JACKSONVILLE BEACH,1938,,
+FL,KEY WEST,1945,,
+FL,KISSIMMEE,1923,,
+FL,LAKE WORTH,1937,,
+FL,LAKELAND,1914,,
+FL,LARGO,1913,,
+FL,LEESBURG,1923,,
+FL,MELBOURNE,1926,,
+FL,MIAMI,1921,,
+FL,MIAMI BEACH,1923,,
+FL,MIAMI SHORES,1932,,
+FL,NEW SMYRNA BEACH,1921,,
+FL,OCALA,1918,,
+FL,PALATKA,1924,,
+FL,PALM BEACH,1922,,
+FL,PANAMA CITY,1940,,***** currently council-manager
+FL,PENSACOLA,1931,,
+FL,PLANT CITY,1927,,
+FL,POMPANO BEACH,1948?,,
+FL,QUINCY,1923,,
+FL,SAFETY HARBOR,1927,,
+FL,SAINT AUGUSTINE,1915,,
+FL,SAINT PETERSBURG,1931,,
+FL,SANFORD,1920,,
+FL,SARASOTA,1946,,
+FL,STUART,1926,,
+FL,TALLAHASSEE,1920,,
+FL,TARPON SPRINGS,1941,,
+FL,WEST PALM BEACH,1919,,
+FL,WINTER HAVEN,1923,,
+GA,ALBANY,1924,,
+GA,ATLANTA,1948?,,***** currently mayor-council
+GA,AVONDALE ESTATES,1927,,
+GA,BRUNSWICK,1921,,
+GA,BUFORD,1939,,
+GA,CAIRO,1946,,
+GA,CARTERSVILLE,1917,,
+GA,CEDARTOWN,1938,,
+GA,COLUMBUS,1922,,
+GA,CORDELE,1923,,
+GA,CORNELIA,1928,,
+GA,DECATUR,1921,,
+GA,DOUGLAS,1941,,
+GA,EASTMAN,1922,,
+GA,FULTON COUNTY,1947,,
+GA,GAINESVILLE,1922,,
+GA,GRIFFIN,1918,,*****
+GA,HAWKINSVILLE,1924,,
+GA,MANCHESTER,1923,,
+GA,MOULTRIE,1937,,
+GA,QUITMAN,1922,,
+GA,ROME,1919,,
+GA,SAVANNAH,1954,,
+GA,THOMASVILLE,1944,,
+GA,TIFTON,1921,,
+GA,TOCCOA,1932,,
+GA,WAYCROSS,1023,,
+HI,HONOLULU,,,***** currently ???
+ID,IDAHO FALLS,,,***** currently ???
+ID,POCATELLO,,,***** currently ???
+IL,ALTON,1957,,***** currently ???
+IL,ARLINGTON HEIGHTS,1954,,currently council-manager
+IL,BELVIDERE,,,***** currently ???
+IL,BLOOMINGTON,1953,,
+IL,BROOKFIELD,1947,,
+IL,CARBONDALE,1966,,***** currently council-manager
+IL,CENTRALIA,1959,,
+IL,CHAMPAIGN,1958,,
+IL,CHICAGO,.,.,***** currently mayor-council
+IL,CRYSTAL LAKE,1957,,
+IL,DECATUR,1959,,***** currently council-manager
+IL,DEERFIELD,1952,,
+IL,DIXON,,,***** currently commission
+IL,EDWARDSVILLE,,,***** currently mayor-council
+IL,ELGIN,1955,,
+IL,ELMHURST,1953,,
+IL,ELWOOD PARK,1953,,
+IL,EVANSTON,1953,,
+IL,GALENA,1949,,
+IL,GALESBURG,1957,,
+IL,GLENCOE,1914,.,*****
+IL,GLENVIEW,1931,,
+IL,GREENVILLE,1957,,
+IL,HIGHLAND,1959,,
+IL,HIGHLAND PARK,1955,,
+IL,HINSDALE,1949,,
+IL,HOMEWOOD,1953,,
+IL,JACKSONVILLE,,,***** currently mayor-council
+IL,JOLIET,1955,,
+IL,KENILWORTH,1920,,
+IL,LAGRANGE,1951,,
+IL,LAKE FOREST,1956,,
+IL,LOMBARD,1955,,
+IL,MASCOUTAH,1955,,
+IL,MAYWOOD,1952,,
+IL,MOUNT PROSPECT,1955,,
+IL,MOUNT VERNON,1953,,***** currently council-manager
+IL,NORTHBROOK,1953,,
+IL,NORTHLAKE,1959,,
+IL,OAK LAWN,1953,,
+IL,OAK PARK,1953,,
+IL,PALATINE,1958,,
+IL,PARK FOREST,1950,,
+IL,PARK RIDGE,1949,,
+IL,PEORIA,1953,,
+IL,PRINCETON,1959,,
+IL,RIVERSIDE,1925,,
+IL,ROCK ISLAND,1953,,
+IL,SALEM,1959,,
+IL,SAVANNA,1952,,
+IL,STERLING,,,***** currently council-manager						xxxxx adopted post-1951
+IL,SKOKIE,1957,,
+IL,VILLA PARK,1957,,
+IL,WESTCHESTER,1952,,
+IL,WESTERN SPRINGS,1948,,
+IL,WILMETTE,1930,,
+IL,WINNETKA,1915,,***** currently council-manager
+IL,WOODSTOCK,1952,,
+IL,WOOD RIVER,1953,,
+IN,ANDERSON,,,***** currently mayor-council
+IN,ELWOOD,,,***** currently ???
+IN,FORT WAYNE,.,.,***** currently mayor-council
+IN,HAMMOND,.,.,***** currently mayor-council
+IN,HUNTINGTON,,,***** currently ???
+IN,INDIANAPOLIS,.,.,***** currently mayor-council
+IN,KOKOMO,,,***** currently ???
+IN,LOGANSPORT,,,***** currently ???
+IN,RUSHVILLE,,,***** currently ???
+IN,TERRE HAUTE,.,.,***** currently mayor-council
+IN,VALPARAISO,.,.,***** currently mayor-council
+IA,ALGONA,,,***** currently ???
+IA,ALTON,,,*****
+IA,AMES,1920,,***** currently council-manager
+IA,CARROLL,,,***** currently ???
+IA,CHARLES CITY,1946,,
+IA,CLARINDA,1913,,
+IA,COUNCIL BLUFFS,,,***** currently ???
+IA,DAVENPORT,,,***** currently ???
+IA,DES MOINES,1950,,***** currently council-manager
+IA,DUBUQUE,1920,,
+IA,ESTHERVILLE,,,***** currently ???
+IA,GRINNELL,,,
+IA,IOWA CITY,,,***** currently council-manager					xxxxx adopted 
+IA,IOWA FALLS,1914,,
+IA,MANCHESTER,,,
+IA,MAQUOKETA,1920,,
+IA,MASON CITY,,,***** currently ???
+IA,MOUNT PLEASANT,1916,,
+IA,MUSCATINE,,,***** currently ???
+IA,SHENANDOAH,1946,,
+IA,SIOUX CENTER,,,*****
+IA,WEBSTER CITY,1915,,
+IA,WEST LIBERTY,1920,,
+KS,ABILENE,1939,,
+KS,ARKANSAS CITY,1930,,***** currently ???
+KS,ATCHISON,1921,,***** currently ???
+KS,BELLEVILLE,1921,,*****
+KS,CHANUTE,,,***** currently ???
+KS,COFFEYVILLE,,,***** currently ???
+KS,COLBY,1952,,
+KS,CONCORDIA,1948,,
+KS,EL DORADO,1917,,*****
+KS,EMPORIA,1947,,***** currently ???
+KS,FORT SCOTT,,,***** currently ???
+KS,GARDEN CITY,,,***** currently ???
+KS,GREAT BEND,,,***** currently ???
+KS,HAYS,1919,,
+KS,HOISINGTON,1924,,
+KS,HOLTON,1948,,
+KS,HUTCHINSON,1947,,***** currently ???
+KS,INDEPENDENCE,1945,,
+KS,IOLA,,,***** currently ???
+KS,JUNCTION CITY,1947,,
+KS,KANSAS CITY,,,***** currently ???
+KS,KINSLEY,1922,,
+KS,LAWRENCE,,,***** currently ???
+KS,LA CROSSE,1925,,
+KS,LEAVENWORTH,,,***** currently ???
+KS,LETHBRIDGE,,,***** currently ???
+KS,LIBERAL,1945,,
+KS,MCCRACKEN,1919,,
+KS,NEWTON,1927,,***** currently council-manager
+KS,OTTAWA,,,***** currently ???
+KS,PARSONS,,,***** currently ???
+KS,RUSSELL,1947,,
+ST,SAINT MARYS,1921,,
+KS,SALINA,1921,,***** currently council-manager (commission)
+KS,SEDGWICK,,,***** mayor-council
+KS,STERLING,1924,,
+KS,STOCKTON,1921,,
+KS,TOPEKA,,,***** currently council-manager						xxxxx adopted post-1922
+KS,WELLINGTON,,,***** currently ???
+KS,WICHITA,1917,.,***** currently council-manager
+KS,WINFIELD,1921,,***** currently council-manager (commission)
+KY,CORBIN,1930,,
+KY,COVINGTON,1932,,
+KY,HAZARD,1938,,
+KY,LEXINGTON,1932,,
+KY,LOUISVILLE,.,.,***** currently mayor-council
+KS,MAYSVILLE,,,***** currently ???
+KY,NEWPORT,1932,,
+KY,NICHOLASVILLE,1947,,
+KY,PADUCAH,1934,,
+LA,LAKE CHARLES,,,***** currently mayor-council
+LA,MONROE,,,***** currently mayor-council
+LA,NEW ORLEANS,,,***** currently mayor-council
+ME,ASHLAND,1935,,
+ME,AUBURN,1918,,
+ME,BAILEYVILLE (WOODLAND),1934,,
+ME,BANGOR,1932,,*****
+ME,BATH,1948,,
+ME,BELFAST,1930,,
+ME,BLAINE,1943,,
+ME,BOOTHBAY,1948?,,
+ME,BREWER,1932,,
+ME,BRIDGEWATER,1942,,
+ME,BRIDGTON,1940,,
+ME,BROWNVILLE,1944,,
+ME,BUCKSPORT,1946,,
+ME,CALAIS,1948?,,
+ME,CAMDEN,1925,,
+ME,CARIBOU,1940,,
+ME,CASTLE HILL,1941,,
+ME,CLINTON,1946,,
+ME,CORINNA,1941,,
+ME,CRYSTAL,1946,,
+ME,DANFORTH,1941,,
+ME,DEXTER,1944,,
+ME,DOVER-FOXCROFT,1938,,
+ME,DYER BROOK,1942,,
+ME,EAGLE LAKE,1944,,
+ME,EASTPORT,1936,,
+ME,ELLSWORTH,1934,,
+ME,FAIRFIELD,1946,,
+ME,FORT FAIRFIELD,1929,,
+ME,FORT KENT,1944,,
+ME,FREEPORT,1946,,
+ME,FRENCHVILLE,1944,,
+ME,GUILFORD,1945,,
+ME,HAYNESVILLE,1944,,
+ME,HODGDON,1940,,
+ME,HOULTON,1939,,
+ME,ISLAND FALLS,1946,,
+ME,LIMESTONE,1946,,
+ME,LINCOLN,1940,,
+ME,LINNEUS,1940,,
+ME,LITTLETON,1945,,
+ME,MONMOUTH,1948?,,
+ME,MONSON,1948?,,
+ME,PITTSFIELD,1948?,,
+ME,PORTLAND,1923,,
+MD,CUMBERLAND,,,***** currently mayor-council
+MD,FREDERICK,,,***** currently mayor-council (aldermen)
+MD,GREENBELT,1938,,
+MD,HAGERSTOWN,,,***** currently mayor-council
+MD,SALISBURY,,,***** currently mayor-council
+MA,BOSTON,,,***** currently mayor-council
+MA,CAMBRIDGE,1942,,
+MA,FITCHBURG,,,***** currently mayor-council
+MA,LOWELL,1944,,***** currently council-manager
+MA,MANSFIELD,1921,,
+MA,MEDFORD,1948?,,
+MA,MIDDLETON,1921,,
+MA,NORTH ADAMS,,,***** currently mayor-council
+MA,NORWOOD,1915,,*****
+MA,PITTSFIELD,,,***** currently mayor-council
+MA,QUINCY,1948?,,
+MA,REVERE,1948?,,
+MA,SAUGUS,1948?,,
+MA,STOUGHTON,1922,,
+MA,WALTHAM,1918,,currently mayor-council adopted in 1918?
+MA,WORCESTER,1950,,currently council-manager adopted in 1948?
+MI,ALBION,1916,,*****
+MI,ALLEGAN,1948?,,
+MI,ALPENA,1934,,*****
+MI,BENTON HARBOR,,,***** currently ???
+MI,BIG RAPIDS,1914,,
+MI,BIRMINGHAM,,,
+MI,BOYNE CITY,,,
+MI,CADILLAC,1914,,*****
+MI,CHEBOYGAN,,,
+MI,CLARE,,,
+MI,CRYSTAL FALLS,,,
+MI,DAVISON,1939,,
+MI,EAST GRAND RAPIDS,1928,,
+MI,EAST LANSING,1944,,
+MI,EATON RAPIDS,,,
+MI,ESCANABA,1922,,***** currently council-manager
+MI,FERNDALE,1924,,
+MI,FLINT,1930,,
+MI,GAYLORD,,,
+MI,GLADSTONE,1923,,
+MI,GRAND HAVEN,1915,,
+MI,GRAND RAPIDS,1917,,
+MI,GRAYLING,1935,,
+MI,GREENVILLE,,,
+MI,GROSSE POINTE PARK,1942,,
+MI,GROSSE POINTE SHORES,1916,,
+MI,HANCOCK,,,
+MI,HARBOR SPRINGS,1932,,
+MI,HAZEL PARK,1942,,
+MI,HOLLAND,1951,,***** currently council-manager
+MI,HUNTINGTON WOODS,1928,,
+MI,IRON RIVER,1926,,
+MI,IRONWOOD,1925,,***** currently council-manager
+MI,ISHPENING,1944,,
+MI,JACKSON,1915,,
+MI,KALAMAZOO,1918,,
+MI,KINGSFORD,1924,,
+MI,LAPEER,1919,,
+MI,LUDINGTON,1942,,***** currently council-manager
+MI,MANISTEE,1914,,
+MI,MANISTIQUE,1926,,
+MI,MARQUETTE,1946,,
+MI,MARYSVILLE,1920,,
+MI,MIDLAND,1945,,
+MI,MOUNT PLEASANT,1921,,
+MI,MUNISING,,,
+MI,MUSKEGON,1920,,
+MI,MUSKEGON HEIGHTS,1922,,
+MI,NORWAY,,,
+MI,OTSEGO,,,
+MI,PETOSKEY,1916,,
+MI,PINCONNING,,,
+MI,PLEASANT RIDGE,1919,,
+MI,PLYMOUTH,1918,,
+MI,PONTIAC,1920,,
+MI,PORT HURON,1941,,
+MI,PORTLAND,1919,,
+MI,ROCKFORD,1935,,
+MI,ROGERS CITY,,,
+MI,ROYAL OAK,1917,,
+MI,SAGINAW,1936,,
+MI,SAINT JOHNS,1919,,
+MI,SAINT JOSEPH,1929,,***** currently council-manager
+MI,SAINT LOUIS,1943,,
+MI,SALINE,1946,,
+MI,SAULT SAINTE MARIE,1917,,***** currently council-manager
+MI,STAMBAUGH,1924,,
+MI,STURGIS,1921,,
+MI,SYLVAN LAKE,1948?,,
+MI,THREE RIVERS,1918,,
+MI,TRAVERSE CITY,1940,,***** currently council-manager (commission)
+MI,VASSAR,1945,,
+MI,WAKEFIELD,,,***** currently council-manager
+MI,WAYNE,1947,,
+MI,YPSILANTI,1947,,
+MN,ALBERT LEA,1929,,
+MN,ANOKA,1914,.,***** currently council-manager
+MN,BEMIDJI,1953,,***** currently council-manager
+MN,COLUMBIA HEIGHTS,1921,,
+MN,FERGUS FALLS,,,***** currently mayor-council
+MN,HOPKINS,1948?,,
+MN,MONTEVIDEO,1948?,,
+MN,MORRIS,1914,,
+MN,PIPESTONE,,,
+MN,SAINT PAUL,.,.,***** currently mayor-council
+MN,WAYZATA,1947,,
+MN,WHITE BEAR LAKE,1921,,
+MN,WINONA,1968,,***** currently council-manager
+MO,BROOKFIELD,1945,,currently council-manager
+MO,CHARLESTON,1948?,,currently council-manager
+MO,CHILLICOTHE,,,***** currently city administrator
+MO,EXCELSIOR SPRINGS,1922,,currently council-manager
+MO,HANNIBAL,1947,,currently council-manager
+MO,JEFFERSON CITY,,,***** currently mayor-council
+MO,JOPLIN,1954,,***** currently council-manager
+MO,KANSAS CITY,1926,,***** currently council-manager
+MO,LEBANON,1946,,
+MO,MACON,,,***** currently city administrator
+MO,MARYVILLE,1954,,***** currently council-manager
+MO,MEXICO,1949,,***** currently council-manager
+MO,MOBERLY,1944,,***** currently council-manager
+MO,NEOSHO,1944,,***** currently council-manager
+MO,NEVADA,1946,,currently council-manager
+MO,SEDALIA,,,***** currently city administrator
+MO,SAINT JOHN,,,currently council-manager
+MO,SAINT JOSEPH,,,currently council-manager
+MO,SPRINGFIELD,,,***** currently council-manager					xxxxx adopted post-1930
+MO,UNIVERSITY CITY,1947,,currently council-manager
+MS,GREENVILLE,,,***** currently weak mayor-strong council
+MT,ANACONDA,,,***** currently ???
+MT,BOZEMAN,1921,,
+MT,BUTTE,,,***** currently ???
+MT,COLUMBUS,,,
+MT,GLASGOW,,,
+MT,HELENA,1953,,***** currently council-manager with directly elected mayor
+MT,KALISPELL,,,***** currently council-manager
+MT,MISSOULA,1955,,,
+MT,PETROLEUM COUNTY (WINNETT),1942,,
+NE,ALLIANCE,1919,,
+NE,KEARNEY,,,***** currently council-manager						xxxxx adopted post-1911
+NE,LEXINGTON,1948?,,
+NE,LINCOLN,,,***** currently mayor-council
+NV,ELKO,1946,,
+NV,LAS VEGAS,1943,,commission form previously
+NV,NORTH LAS VEGAS,,,
+NV,RENO,1947,,***** currently council-manager
+NH,CLAREMONT,1948?,,
+NH,CONWAY,1946,,
+NH,DOVER,1948?,,
+NH,FRANKLIN,1948?,,
+NH,KEENE,1948?,,
+NH,NASHUA,,,***** currently mayor-council (aldermen)
+NH,PORTSMOUTH,1948,,***** currently council-manager
+NJ,ASHBURY PARK,1933,,
+NJ,CLIFTON,1934,,
+NJ,HACKENSACK,1933,,
+NJ,HOPEWELL,,,
+NJ,KEANSBURG,1925,,
+NJ,MEDFORD LAKES,1946,,
+NJ,TEANECK,1930,,
+NJ,TETERBORO,1938,,
+NJ,TRENTON,,,***** currently mayor-council
+NM,ALBUQUERQUE,1918?,,***** currently mayor-council
+NM,CLAYTON,1921,,
+NM,CLOVIS,1922,,***** currently ???
+NM,EAST LAS VEGAS,,,***** currently mayor-council
+NM,GALLUP,,,***** currently ???
+NM,HOBBS,,,
+NM,LAS CRUCES,,,***** currently council-manager						xxxxx adopted ???
+NM,ROSWELL,1914,,
+NM,TUCUMCARL,1946,,
+NY,AUBURN,1920,,
+NY,BINGHAMTON,1932,,adopted in 1932?
+NY,BROOKLYN,.,.,***** currently part of NYC
+NY,CANANDAIGUA,1968,,***** currently council-manager
+NY,DUNKIRK,,,***** currently mayor-council
+NY,ELMIRA,1934,,
+NY,KINGSTON,,,***** currently mayor-council (common council)
+NY,LONG BEACH,1946,,
+NY,MAMARONECK,1931,,
+NY,MIDDLETOWN,,,***** currently mayor-council (common council)
+NY,MONROE COUNTY (ROCHESTER),1936,,
+NY,NEW ROCHELLE,1932,,
+NY,NEW YORK,.,.,***** currently mayor-council
+NY,NEWBURGH,1916,,
+NY,NIAGARA FALLS,1916,,
+NY,OLEAN,,,***** currently mayor-council (common council)
+NY,ONEONTA,,,***** currently mayor-council (common council)
+NY,ROCHESTER,1928,,
+NY,SARANAC LAKE,1929,,
+NY,SCHENECTADY,1936,,
+NY,SHERRILL,1916,,
+NY,SYRACUSE,,,***** currently mayor-council (common council)
+NY,TROY,1964,1996,***** currently mayor-council
+NY,WATERTOWN,1920,,
+NY,WATERVLIET,1920,,
+NY,YONKERS,1940,,
+NC,APEX,1935,,
+NC,ASHEBORO,1942,,
+NC,ASHEVILLE,1931,,***** currently council-manager
+NC,BURLINGTON,1945,,***** currently council-manager
+NC,CHAPEL HILL,1922,,
+NC,CHARLOTTE,1929,,***** currently council-manager with directly elected mayor who has veto
+NC,CONCORD,,,***** currently ???
+NC,DUNN,1951,,
+NC,DURHAM,1917,,***** currently council-manager
+NC,DURHAM COUNTY,1930,,
+NC,ELIZABETH CITY,,,
+NC,FUQUAY SPRINGS,1933,,
+NC,GASTONIA,1919,,***** currently council-manager
+NC,GOLDSBORO,1917,,*****
+NC,GREENSBORO,1921,,***** currently council-manager
+NC,GUILFORD COUNTY (GREENSBORO),1942,,
+NC,HENDERSONVILLE,1920,,adopted in 1920?
+NC,HICKORY,1913,,***** currently council-manager
+NC,HIGH POINT,1915,,***** currently council-manager
+NC,KINGS MOUNTAIN,1940,,
+NC,LEXINGTON,1935,,
+NC,LUMBERTON,1949,,***** currently council-manager
+NC,MOREHEAD CITY,,,
+NC,MORGANTON,1913,,currently council-manager
+NC,NEW BERN,1947,,***** currently council-manager
+NC,RALEIGH,1948?,,***** currently council-manager
+NC,REIDSVILLE,1921,,
+NC,ROCKY MOUNT,1927,,
+NC,ROXBORO,1928,,
+NC,SALISBURY,1927,,
+NC,STATESVILLE,1949,,***** currently council-manager
+NC,TARBORO,,,
+NC,THOMASVILLE,1915,,
+NC,TRYON,1931,,
+NC,WHITEVILLE,1948?,,
+NC,WILMINGTON,1941,,***** currently council-manager
+NC,WILSON,1933,,
+NC,WINSTON-SALEM,1948,,***** currently council-manager
+ND,BISMARCK,,,***** currently ???
+ND,CARRINGTON,,,
+ND,FARGO,1947,,
+ND,GRAND FORKS,1947,,
+ND,MINOT,1933,,
+OH,ASHVILLE,,,currently mayor-council
+OH,AKRON,1920,,adopted in 1920?
+OH,ASHTABULA,1916,,
+OH,BEDFORD,1932,,
+OH,BELLBROOK,1918,,adopted in 1918?
+OH,BRUNSWICK,1975,,
+OH,CANTON,,,currently mayor-council
+OH,CAREY,1945,,
+OH,CELINA,1926,,
+OH,CINCINNATI,1926,,***** currently council-manager
+OH,CIRCLEVILLE,,,***** currently mayor-council
+OH,CLEVELAND HEIGHTS,1922,,currently council-manager
+OH,COSHOCTON,,,***** currently mayor-council
+OH,DAYTON,1914,,currently council-manager
+OH,DELPHOS,,,***** currently mayor-council (part-time) and city director (full-time)
+OH,DOVER,,,***** currently mayor-council
+OH,EAST CLEVELAND,1918,,
+OH,EAST LIVERPOOL,,,***** currently ???
+OH,ELYRIA,,,***** currently mayor-council
+OH,GALLIPOLIS,1918,,currently council-manager
+OH,HAMILTON,1928,,***** currently council-manager
+OH,INDIAN HILL (CINCINNATI),1942,,currently council-manager
+OH,IRONTON,1930,,
+OH,LEBANON,1962,,
+OH,LIMA,,,***** currently mayor-council
+OH,LOGAN,,,***** currently ???
+OH,LOVELAND,1961,,currently council-manager
+OH,MANSFIELD,,,***** currently mayor-council
+OH,MARION,,,***** currently mayor-council
+OH,MARYSVILLE,,,***** currently council-manager
+OH,MASSILLON,,,***** currently mayor-council
+OH,MONTGOMERY,1982,,currently council-manager
+OH,NEW PHILADELPHIA,,,***** currently mayor-council
+OH,NEWARK,,,***** currently mayor-council
+OH,OAKWOOD (DAYTON),1932,,currently council-manager
+OH,OBERLIN,1926,,currently council-manager
+OH,OSBORN,1948,,
+OH,PAINESVILLE,1920,,currently council-manager
+OH,PIQUA,1930,,***** currently council-manager
+OH,PORTSMOUTH,1930,1988,***** currently mayor-council
+OH,SALEM,,,***** currently mayor-council
+OH,SANDUSKY,1916,,***** currently council-manager
+OH,SOUTH CHARLESTON,1918,,currently council-manager
+OH,SPRINGFIELD,1914,,currently council-manager
+OH,TOLEDO,1936,,
+OH,WASHINGTON COURT HOUSE,1936,,currently council-manager
+OH,WESTERVILLE,1916,,currently council-manager
+OH,WILLARD,1950,,currently council-manager
+OH,WILMINGTON,,,***** currently mayor-council
+OH,XENIA,1918,,***** currently council-manager
+OH,YOUNGSTOWN,,,currently mayor-council
+OH,ZANESVILLE,,,***** currently mayor-council
+OK,ADA,1946,,*****
+OK,ANADARKO,1948?,,
+OK,ARDMORE,1921,,***** currently council-manager (commission)
+OK,ATOKA,1937,,
+OK,BARTLESVILLE,1927,,
+OK,CHANDLER,1925,,
+OK,CLEVELAND,1931,,
+OK,CHICKASHA,1946,,
+OK,COALGATE,1914,,
+OK,COLLINSVILLE,1914,,adopted in 1914?
+OK,CUSHING,1929,,
+OK,DUNCAN,1920,,
+OK,EDMOND,1925,,
+OK,EL RENO,1926,,
+OK,ENID,1947,,
+OK,ERICK,,,
+OK,GRANDFIELD,1921,,
+OK,GUTHRIE,1919,,
+OK,HEAVENER,1922,,
+OK,LAWTON,1972,,***** currently council-manager
+OK,MADILL,1917,,
+OK,MIAMI,,,***** currently council-manager					xxxxx adopted post-1968?
+OK,MANGUM,1914,,
+OK,MCALESTER,1919,,
+OK,MUSKOGEE,1920,,***** currently council-manager
+OK,NORMAN,1919,,
+OK,NOWATA,1920,,
+OK,OKLAHOMA CITY,1927,,currently council-manager
+OK,PAWHUSKA,1921,,
+OK,SALLISAW,1919,,
+OK,SAPULPA,1922,,
+OK,SHAWNEE,1930,,
+OK,STIGLER,1948?,,
+OK,TECUMSEH,1929,,
+OK,THE VILLAGE,1959,,
+OK,WALTERS,1919,,
+OK,WEATHERFORD,1917,,adopted in 1917?
+OK,WOODWARD,1929,,
+OK,YALE,1921,,
+OR,ASTORIA,1923,,
+OR,BEND,1929,,
+OR,COOS BAY,1945,,
+OR,COQUILLE,1948?,,
+OR,COTTAGE GROVE,1948?,,
+OR,EUGENE,1945,,
+OR,FOREST GROVE,1938,,
+OR,GRANTS PASS,1946,,
+OR,HILLSBORO,1924,,
+OR,LA GRANDE,1913,,
+OR,MILTON,1938,,
+OR,MILWAUKEE,1945,,
+OR,NYSSA,1945,,
+OR,OREGON CITY,1924,,
+OR,PENDELTON,1947,,
+OR,PORTLAND,,,***** currently commission
+OR,ROSEBURG,1947,,
+OR,SALEM,1946?,,***** currently council-manager
+OR,SPRINGFIELD,1947,,
+OR,SILVERTON,1941,,
+OR,SWEET HOME,1943,,
+PA,ALLENTOWN,,,***** currently mayor-council
+PA,ALTOONA,1918,1921,***** currently council-manager
+PA,ASHLAND,1930,,
+PA,ASPINWALL,1925,,
+PA,AVALON,1928,,
+PA,BETHLEHEM,1918,,adopted in 1918?
+PA,BLAIRSVILLE,1922,,
+PA,BOYERTOWN,1938,,
+PA,CARLISLE,1921,,
+PA,CHELTENHAM,1937,,
+PA,CHESTER,,,***** currently commission
+PA,CONNELLSVILLE,,,***** currently commission
+PA,COALDALE,,,
+PA,EDGEWOOD,1931,,
+PA,EDGEWORTH,1914,,
+PA,ELLWOOD CITY,1928,,
+PA,EPHRATA,1938,,
+PA,FOX CHAPEL,1937,,
+PA,FRANKLIN,,,***** currently council-manager					xxxxx adopted ???
+PA,GROVE CITY,1930,,
+PA,HAMBURG,1946,,
+PA,HANOVER,1928,,
+PA,HARRISBURG,,,***** currently mayor-council
+PA,HAZLETON,,,***** currently mayor-council
+PA,INDIANA,,,***** currently council-manager (borough council)
+PA,LANSDOWNE,1922,,
+PA,LEBANON,,,***** currently mayor-council
+PA,LEHIGHTON,1943,,
+PA,LEWISTOWN,1943,,
+PA,LOCK HAVEN,,,***** currently council-manager					xxxx adopted in 1971, 1972?
+PA,LOWER MERION,1942,,
+PA,MECHANICSBURG,1947,,
+PA,MILTON,1925,,
+PA,MONONGAHELA,,,***** currently commission
+PA,MOUNT LEBANON,1928,,
+PA,NEW BRIGHTON,1942,,
+PA,NEW CASTLE,,,***** currently mayor-council
+PA,NORTHAMPTON,1932,,
+PA,OAKMONT,1948?,,
+PA,OIL CITY,1972,,***** currently council-manager
+PA,OSBORNE,1921,,
+PA,PHILADELPHIA,.,.,***** currently mayor-council
+PA,PHILIPSBURG,,,
+PA,PHOENIXVILLE,1930,,
+PA,PITTSBURGH,,,***** currently mayor-council
+PA,PITTSTON,,,***** currently commission
+PA,POTTSTOWN,1945,,***** currently council-manager (borough council)
+PA,READING,,,***** currently mayor-council
+PA,SCOTTDALE,1932,,
+PA,SCRANTON,,,***** currently mayor-council
+PA,SEWICKLEY,1918,,
+PA,SEWICKLEY HEIGHTS,1936,,
+PA,SPRINGDALE,1942,,
+PA,STATE COLLEGE,1945,,
+PA,STROUDSBURG,,,***** currently council-manager (borough council)
+PA,TOWANDA,1918,,
+PA,UNIONTOWN,,,***** currently commission
+PA,WAYNESORO,1922,,
+PA,WEST READING,1926,,
+PA,WEST VIEW,1942,,
+PA,WILKES-BARRE,,,***** currently mayor-council
+PA,WILLIAMSPORT,,,***** currently mayor-council
+PA,YORK,,,***** currently mayor-council
+RI,BARRINGTON,1961,,currently council-manager
+RI,BRISTOL,,,currently council-manager
+RI,BURRILLVILE,1990,,currently council-manager
+RI,CENTRAL FALLS,,,currently mayor-council
+RI,CHARLESTOWN,1982,,currently council-manager
+RI,COVENTRY,1973,,currently council-manager
+RI,CRANSTON,,,currently mayor-council
+RI,CUMBERLAND,,,currently mayor-council
+RI,EAST GREENWICH,1973,,currently council-manager
+RI,EAST PROVIDENCE,,,currently council-manager
+RI,EXETER,,,currently town meeting
+RI,FOSTER,,,currently town meeting
+RI,GLOCESTER,,,currently town meeting
+RI,HOPKINTON,,,currently town meeting
+RI,JAMESTOWN,1974,,currently council-manager
+RI,JOHNSTON,,,currently mayor-council
+RI,LINCOLN,,,currently council-manager
+RI,LITTLE COMPTON,,,currently town meeting
+RI,MIDDLETOWN,1970,,currently council-manager
+RI,NARRAGANSETT,1967,,currently council-manager
+RI,NEW SHOREHAM,1990,,currently council-manager (Block Island)
+RI,NEWPORT,1953,,***** currently council-manager
+RI,NORTH KINGSTOWN,1955,,currently council-manager
+RI,NORTH PROVIDENCE,,,currently mayor-council
+RI,NORTH SMITHFIELD,,,currently council-manager
+RI,PAWTUCKET,,,currently mayor-council
+RI,PORTSMOUTH,1973,,currently council-manager
+RI,PROVIDENCE,,,currently mayor-council
+RI,RICHMOND,,,currently town meeting
+RI,SCITUATE,,,currently town meeting
+RI,SMITHFIELD,1995,,currently council-manager
+RI,SOUTH KINGSTOWN,1970,,currently council-manager
+RI,TIVERTON,1992,,currently town meeting
+RI,WARREN,1995,,currently council-manager
+RI,WESTERLY,1969,,currently council-manager
+RI,WEST GREENWICH,,,currently town meeting
+RI,WEST WARWICK,1994,,currently council-manager
+SC,AIKEN,,,*****
+SC,BEAUFORT,1915,,
+SC,CHESTER,1945,,
+SC,FLORENCE,1921,,***** currently council-manager
+SC,GAFFNEY,,,***** currently council-manager (administrator)
+SC,GREENVILLE,1950,,
+SC,GREENWOOD,1939,,***** currently council-manager
+SC,LANCASTER,1946,,
+SC,ROCK HILL,1915,,*****
+SC,SPARTANBURG,1947,,
+SC,SUMTER,1912,,***** currently council-manager
+SD,ABERDEEN,1946,,
+SD,CLARK,1912,,
+SD,HURON,,,***** currently ???
+SD,MADISON,1947,,
+SD,MITCHELL,,,***** currently ???
+SD,RAPID CITY,1921,,
+TN,ALCOA,1919,,
+TN,ATHENS,1948?,,
+TN,COLUMBIA,1940,,
+TN,ELIZABETHTON,1921,,
+TN,GATLINBURG,1945,,
+TN,JOHNSON CITY,1939,,
+TN,KINGSPORT,1917,,***** currently ???
+TN,KNOXVILLE,1923,,
+TN,MCMINN COUNTY,1947,,
+TN,MURFREESBORO,1920,,
+TN,PARIS,1947,,
+TX,ABILENE,1947,,***** currently council-manager
+TX,AMARILLO,1913,,***** currently council-manager
+TX,ATHENS,1966,,adopted in 1960 and abandoned in 1963
+TX,AUSTIN,1926,,
+TX,BAYTOWN,,,***** currently council-manager
+TX,BEAUMONT,1919,,
+TX,BELTON,1931,,
+TX,BIG SPRING,1926,,
+TX,BONHAM,1948?,,*****
+TX,BORGER,1930,,
+TX,BROWNSVILLE,1916,,***** currently council-manager
+TX,BROWNWOOD,1916,,***** currently ??? adopted in 1916?
+TX,BRYAN,1917,,***** currently council-manager
+TX,BURKBURNETT,1923,,
+TX,BURNET,1945,,
+TX,CANYON,,,*****
+TX,CARRIZO SPRINGS,1946,,
+TX,CARTHAGE,1948?,,
+TX,CLARKSVILLE,1946,,
+TX,COLLEGE STATION,1944,,
+TX,CORPUS CHRISTI,1945,,***** currently council-manager
+TX,CORSICANA,,,***** currently council-manager							xxxxx adopted c-m in 1960?
+TX,CRYSTAL CITY,1943,,
+TX,DALLAS,1931,,
+TX,DEL RIO,1967,,
+TX,DENTON,1959,,***** currently council-manager (adopted in 1914 and abandoned in 1919)
+TX,EASTLAND,1919,,
+TX,EDINBURG,1946,,
+TX,ELECTRA,1975,1989,
+TX,EL PASO,2004,,***** currently ???
+TX,FORT WORTH,1925,,
+TX,FREEPORT,,,***** currently council-manager							xxxxx adopted c-m in 1960 ?
+TX,GAINESVILLE,1927,,abandoned in 1947 and readopted in 1949
+TX,GALVESTON,1960,,***** currently council-manager (previously city commission?)
+TX,GEORGETOWN,1944,,
+TX,GIDDINGS,1942,,
+TX,GOOSE CREEK,1928,,
+TX,GRANBURY,,,*****
+TX,GRAND PRAIRIE,,,***** currently council-manager						xxxxx adopted c-m in 1954?
+TX,HARLINGEN,1947,,***** currently council-manager (adopted in 1947?)
+TX,HEARNE,,,*****
+TX,HILLSBORO,1962,,
+TX,HOUSTON,1942,1947,
+TX,HUBBARD,1943,,
+TX,IRVING,,,***** currently council-manager							xxxxx adopted c-m pre 1958?
+TX,JACKSONVILLE,1931,,
+TX,KERRVILLE,1927,,
+TX,KILLEEN,1949,,
+TX,LAMESA,1945,,
+TX,LIBERTY,,,*****
+TX,LIVINSTON,1941,,
+TX,LLANO,,,*****
+TX,LONGVIEW,1923,,
+TX,LUBBOCK,1917,,***** currently council-manager
+TX,LUFKIN,1919,,
+TX,MARSHALL,1927,,
+TX,MCALLEN,1945,,
+TX,MEXIA,1920,,*****
+TX,MIDLAND,1948?,,
+TX,NACOGDOCHES,1932,,
+TX,NAVASOTA,1923,,
+TX,ODESSA,1969,,***** currently council-manager (adopted in 1946?)
+TX,PAMPA,1927,,***** currently council-manager (commission)
+TX,PANHANDLE,1923,,
+TX,PARIS,1948,,***** currently council-manager
+TX,PELLY,1946,,
+TX,PITTSBURG,1946,,
+TX,PLANO,,,***** currently council-manager							xxxxx adopted c-m pre 1960?
+TX,PORT ARTHUR,1932,,
+TX,RANGER,1919,1921,
+TX,RAYMONDVILLE,1945,,
+TX,ROSENBERG,1985,,adopted in 1956 and abandoned in 1960
+TX,SAN ANGELO,1916,,
+TX,SAN ANTONIO,1952,.,***** currently council-manager with directly elected mayor
+TX,SEGUIN,,,
+TX,SHERMAN,1915,,
+TX,STAMFORD,1918,,
+TX,SULPHUR SPRINGS,1948?,,
+TX,SWEETWATER,1928,,
+TX,TAYLOR,1918,,***** 
+TX,TEAGUE,1915,,adopted in 1915?
+TX,TEMPLE,1922,,
+TX,TERRELL,1919,,
+TX,TYLER,1915,,
+TX,WACO,1924,,***** currently council-manager (abandoned in 1946 and readopted in 1948)
+TX,WAXAHACHIE,1947,,
+TX,WESLACO,1929,,
+TX,WEST COLUMBIA,1942,,
+TX,WICHITA FALLS,1928,,
+TX,YOAKUM,1915,,
+UT,BRIGHAM CITY,,,
+UT,OGDEN,1951,,***** currently mayor-council
+UT,PROVO,1956,,***** currently mayor-council
+UT,SALT LAKE CITY,,,***** currently mayor-council
+UT,SOUTH SALT LAKE,1946,,
+UT,TOOELE,1925,,
+UT,VERNAL,1948?,,
+VT,BARRET,1939,,
+VT,BELLOW FALLS,1927,,
+VT,BENNINGTON,,,
+VT,BETHEL,1948?,,
+VT,BRANDON,1947,,
+VT,BRATTLEBORO,1942,,
+VT,CASTLETON,1939,,
+VT,CAVENDISH,1946,,
+VT,CHESTER,1945,,
+VT,HARDWICK,1937,,
+VT,HARTFORD,1940,,
+VT,LUDLOW,1926,,
+VT,MANCHESTER,1941,,
+VT,MIDDLEBURY,1937,,
+VT,MONTPELIER,1947,,
+VT,NORTH TROY,1935,,
+VT,NORTHFIELD,1941,,
+VT,RANDOLPH,1940,,
+VT,ROCKINGHAM,1927,,
+VT,SAINT JOHNSBURY,1923,,
+VT,SPRINGFIELD,1920,,
+VT,TROY,1935,,
+VT,WINDSOR,1931,,
+VA,ABINGTON,1940,,
+VA,ALBERMARLE COUNTY,1933,,
+VA,ALEXANDRIA,1922,,***** currently council-manager
+VA,ALTAVISTA,1936,,
+VA,APPALACHIA,1931,,
+VA,ARLINGTON CITY?,1932,,
+VA,BEDFORD,1920,,
+VA,BIG STONE GAP,1936,,
+VA,BLACKSTONE,1914,,
+VA,BLUEFIELD,1930,,
+VA,BRISTOL,1919,,
+VA,CHARLOTTESVILLE,1913,,
+VA,CLIFTON FORGE,1942,,
+VA,COLONIAL BEACH,1947,,
+VA,COVINGTON,1925,,
+VA,CREWE,1926,,
+VA,CUPEPER,1930,,
+VA,DANVILLE,1950,,***** currently council-manager
+VA,FARMVILLE,1915,,
+VA,FRANKLIN,1922,,
+VA,FREDERICKSBURG,1912,,
+VA,FRONT ROYAL,1930,,
+VA,GALAX,1922,,
+VA,HAMPTON,1920,,
+VA,HARRISONBURG,1940,,
+VA,HENRICO COUNTY,1934,,
+VA,HOPEWELL,1923,,
+VA,LEXINGTON,1938,,
+VA,LYNCHBURG,1920,,
+VA,MANASSAS,1927,,
+VA,NEWPORT NEWS,1920,
+VA,NORFOLK,1918,,
+VA,NORTON,1936,,
+VA,ORANGE,1935,,
+VA,PEARISBURG,1948?,,
+VA,PETERSBURG,1920,,***** currently council-manager
+VA,PORTSMOUTH,1917,,
+VA,RADFORD,1920,,
+VA,RICHMOND,1948,2004,***** currently ???
+VA,ROANOKE,1918,,
+VA,SALEM,1922,
+VA,SOUTH BOSTON,1936,,
+VA,SOUTH NORFOLK,1948?,,
+VA,STAUNTON,1908,,
+VA,SUFFOLK,1919,,
+VA,TAPPAHANNOCK,1938,,
+VA,VINTON,1936,,
+VA,WARRENTON,1920,,
+VA,WARWICK COUNTY,1945,,
+VA,WAYNESBORO,1938,,
+VA,WILLIAMSBURG,1932,,
+VA,WINCHESTER,1916,,
+VA,WYTHEVILLE,1927,,
+WA,ABERDEEN,,,
+WA,CENTRALIA,,,***** currently council-manager				xxxxx adopted c-m post 1977?
+WA,LEAVENWORTH,,,
+WA,PASCO,,,***** currently council-manager				xxxxx adopted c-m in 1952, 1953, 1954?
+WA,PORT ANGELES,,,***** currently ???
+WA,SEATTLE,,,
+WA,SUNNYSIDE,1948?,,
+WA,TACOMA,,,***** currently council-manager				xxxxx adopted c-m post-1918
+WV,BECKLEY,,,***** currently ???
+WV,BLUEFIELD,1921,,
+WV,CHARLESTON,,,***** currently mayor-council (city manager appointed by mayor and approved by council)
+WV,CLARKSBURG,1921,,
+WV,GRAFTON,1947,,
+WV,MORGANTOWN,1921,,
+WV,SAINT MARYS,1921,,
+WV,WEIRTON,,,***** currently ???
+WV,WHEELING,1917,,currently council-manager (adopted in 1935?)
+WI,APPLETON,,,***** currently mayor-council
+WI,ASHLAND,1948?,,
+WI,BELOIT,1929,,
+WI,EAU CLAIRE,1949,,***** currently council-manager
+WI,FOND DU LAC,1958,,***** currently council-manager
+WI,FORT ATKINSON,1931,,
+WI,FOX POINT,1946,,
+WI,GREENDALE,1939,,
+WI,JANESVILLE,1923,,***** currently council-manager
+WI,KENOSHA,1922,,
+WI,LA CROSSE,,,***** currently weak mayor-strong council
+WI,MADISON,1947,,***** currently mayor-council (when changed?)
+WI,MANITOWOC,,,***** currently mayor-council (weak mayor-strong council?)
+WI,OSHKOSH,1956,,
+WI,RHINELANDER,1926,,***** currently ???
+WI,RIVER HILLS,1948?,,
+WI,SHOREWOOD,1926,,
+WI,SUPERIOR,1941,,
+WI,TWO RIVERS,1925,,
+WI,WAUKESHA,,,***** currently ???
+WI,WHITEFISH BAY,1938,,
+WY,LARAMIE,1942,,

@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*Rproj
+
+# Not track csv datafiles.
+*.csv
+*.dta
+
