@@ -16,6 +16,17 @@ log using "log_stata_files.log"
 * November 20, 2016
 ********************************************************************************
 
+// set work directory: 
+if c(username) == "Sean Hambali" {
+	gl wd "C:/Users/Sean Hambali/Documents/GitHub/PPOL6081/replication-01"
+}
+
+// set relative path
+gl scripts "$wd/0_scripts"
+gl raw "$wd/1_raw"
+gl build "$wd/2_build"
+gl docs "$wd/3_docs"
+
 
 set more off
 
@@ -34,7 +45,7 @@ local make_party_committee = 1
 
 if `make_committees'==1 {
 	
-	use "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_housecommittees.dta", clear
+	use "$raw/hits_housecommittees.dta", clear
 	
 	keep if year>=1949 & year<=1973
 	collapse (sum) agriculture appropriations armed_services banking education energy foreign_affairs government_operations house_administration judiciary merchant_marine natural_resources post_office public_works rules science standards_of_official_conduct veterans_affairs ways_and_means
@@ -100,7 +111,7 @@ if `make_committees'==1 {
 
 if `make_leader'==1 {
 	
-	use "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_leadernames.dta", clear
+	use "$raw/hits_leadernames.dta", clear
 	
 	*Table comparing means
 	collapse (sum) randall keifer carlisle reed	crisp henderson	cannon clark gillett longworth	garner rainey byrns	bankhead rayburn martin mccormack albert halleck garrett snell mann, by(year)
@@ -318,7 +329,7 @@ log using "log_stata_files.log", append
 
 if `make_mayors'==1 {
 	
-	use "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_citygov.dta", clear
+	use "$raw/hits_citygov.dta", clear
 
 	replace city = upper(city)
 	replace city = "SAN BERNARDINO" if state == "CA" & strpos(city, "SAN BERNARDIN") > 0
@@ -333,7 +344,7 @@ if `make_mayors'==1 {
 	tempfile citygov
 	save `citygov', replace
 
-	insheet using "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\city_manager_dates.txt", names clear
+	insheet using "$raw/city_manager_dates.txt", names clear
 	sort state city
 	tempfile tmp1
 	save `tmp1', replace
@@ -510,7 +521,7 @@ quietly {
 	
 	
 	
-log using "log_stata_files.log", append
+log using "$raw/log_stata_files.log", append
 	
 	**produce dta for graph
 	use `tmp1', clear
@@ -563,7 +574,7 @@ log using "log_stata_files.log", append
 	
 	collapse (mean) r_mayor r_city_manager r_city_council r_mayor_x r_city_manager_x r_city_council_x r_control* rel_mayor_council rel_mayor_council_control rel_mayor_council_x (semean) r_mayor_sd=r_mayor r_city_manager_sd=r_city_manager r_city_council_sd=r_city_council r_mayor_x_sd=r_mayor_x r_city_manager_x_sd=r_city_manager_x r_city_council_x_sd=r_city_council_x r_control_mayor_sd=r_control_mayor r_control_city_council_sd=r_control_city_council r_control_city_manager_sd=r_control_city_manager rel_mayor_council_sd=rel_mayor_council rel_mayor_council_control_sd=rel_mayor_council_control rel_mayor_council_x_sd=rel_mayor_council_x, by(t)
 	
-	saveold for_mayor_r_graph, replace version(12)
+	saveold "$raw/for_mayor_r_graph", replace version(12)
 }
 
 
@@ -575,7 +586,7 @@ log using "log_stata_files.log", append
 
 if `make_rtaa'==1 {
 	
-	use "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_tariff.dta", clear
+	use "$raw/hits_tariff.dta", clear
 	keep if year >= 1880 & year<=1975
 	
 	gen t = year - mod(year,5)
@@ -600,7 +611,7 @@ if `make_rtaa'==1 {
 	reg r post tt
 	reg r post tt post_tt
 	
-	saveold for_tariff_r_graph, version(12) replace
+	saveold "$raw/for_tariff_r_graph", version(12) replace
 }
 
 
@@ -612,9 +623,9 @@ if `make_rtaa'==1 {
 
 if `make_party_committee' == 1 {
 	
-	use "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_candidates.dta", clear
+	use "$raw/its_candidates.dta", clear
 
-	merge 1:1 state year using "C:\Users\Sean Hambali\Documents\GitHub\PPOL6081\replication-01\1_raw\hits_partycommittee.dta"
+	merge 1:1 state year using "$raw/hits_partycommittee.dta"
 	keep if _merge==3
 	drop _merge
 	drop if state == "DC" | state =="V" | state=="Victoria" | state=="NSW" | state=="New South Wales"
@@ -643,7 +654,7 @@ if `make_party_committee' == 1 {
 	gen party_power_norm = party_power/x
 	
 	keep state year party_power_norm
-	saveold for_partycommittee_r_graph, version(12) replace
+	saveold "$raw/for_partycommittee_r_graph", version(12) replace
 }
 
 log close
