@@ -43,7 +43,7 @@ plot_fig4 <- fig4_data %>%
     aes(x = year, y = r_newspaperscom)
   ) +
   geom_smooth(aes(group = period), method = "lm") +
-  geom_point() +
+  geom_point(size = 4.5) +
   geom_vline(xintercept = 1959, color = "red", lty = "dashed") +
   geom_vline(xintercept = 1965, color = "red", lty = "dashed") +
   coord_cartesian(
@@ -52,6 +52,10 @@ plot_fig4 <- fig4_data %>%
   labs(
     x = "Year", 
     y = "Relative Coverage of MA Executive Council"
+  ) +
+  theme(
+    axis.text = element_text(size = 14), 
+    axis.title = element_text(size = 15)
   )
 
 # ============================================================================ #
@@ -62,7 +66,7 @@ ggsave(
   here('3_docs', 'fig', 'replicated', 'Fig4.png'),
   plot_fig4,
   width = 8,
-  height = 6.5,
+  height = 5.5,
   units = 'in', 
   dpi = 500
 )
