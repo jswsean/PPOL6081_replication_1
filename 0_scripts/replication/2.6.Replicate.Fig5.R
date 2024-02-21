@@ -61,6 +61,10 @@ plot_fig5 <- select_states %>%
   labs(
     x = "Year", 
     y = "Party Committee Power"
+  ) +
+  theme(
+    axis.text = element_text(size = 14), 
+    axis.title = element_text(size = 15)
   )
 
 
@@ -73,7 +77,7 @@ ggsave(
   here('3_docs', 'fig', 'replicated', 'Fig5.png'),
   plot_fig5, 
   width = 8, 
-  height = 8,
+  height = 6.5,
   units = 'in', 
   dpi = 500
 )
