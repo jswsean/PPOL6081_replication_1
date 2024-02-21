@@ -102,6 +102,11 @@ model_4 = feols(
   vcov = ~state_city
 )
 
+
+# ============================================================================ #
+# Export the table ----
+# ============================================================================ #
+
 # Set dictionary for variable export
 var_dict = c("city_manager_govtTRUE" = "Council-manager government form",
              "year" = "Year", 
@@ -111,26 +116,17 @@ var_dict = c("city_manager_govtTRUE" = "Council-manager government form",
              "r_mayor_x" = "Rel. Coverage of Mayor", 
              "r_city_manager_x" = "Rel. Coverage of City Manager")
 
-# Summarizing the table 
-tab1 <- etable(
+# Export reg table to .PNG
+etable(
   model_1, model_2, model_3, model_4, 
   headers = list(":_:" = list("All Mentions" = 2, "Using City Name Filter" = 2)),
-  tex = TRUE, 
+  # tex = TRUE, 
   digits = 2,
   digits.stats = 2,
   drop = "Const",
   dict = var_dict,
+  export = here('3_docs', 'tab', 'replicated', 'Tab1.png'),
   style.tex = style.tex("aer"),
   se.below = TRUE
 )
-
-# ============================================================================ #
-# Export the table ----
-# ============================================================================ #
-
-writeLines(
-  tab1, 
-  con = here('3_docs', 'tab', 'replicated', 'Tab1.tex')
-)
-
 
