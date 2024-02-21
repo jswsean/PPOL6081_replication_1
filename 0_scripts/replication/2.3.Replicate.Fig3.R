@@ -97,7 +97,7 @@ fig3_data <- fig3_data %>%
       .names = "r_{.col}"
     ), 
     
-    # Control variables 
+    # Same variables but for control 
     across(
       c(control_sum_mayor, control_sum_city_manager, control_sum_city_council), 
       ~ if_else(total_control >= 50, .x/total_control, NA_real_),
@@ -115,6 +115,7 @@ fig3_data <- fig3_data %>%
     rel_mayor_council_total_x = r_city_council_x + r_mayor_x, 
     rel_mayor_council_x = r_mayor_x / rel_mayor_council_total_x
   ) %>%
+  # Get average of the proportion variables by t/-t
   summarise(
     
     # Get the collapsed average
@@ -169,7 +170,7 @@ plot_fig3a <- fig3_data %>%
   geom_ribbon(aes(ymax = upper, ymin = lower), alpha = .3) +
   geom_point(aes(shape = group)) +
   annotate(
-    "label", x = 0, y = .8, label = "Relative coverage of mayors", size = 3.5
+    "label", x = 0, y = .8, label = "Relative coverage of mayors", size = 4.5 
   ) +
   coord_cartesian(ylim = c(.3, .8)) +
   labs(
@@ -179,7 +180,7 @@ plot_fig3a <- fig3_data %>%
     fill = guide_legend(title = "Group"),
     shape = "none"
   ) +
-  theme(legend.position = c(.8, .8), 
+  theme(legend.position = c(.3, .175), 
         legend.text = element_text(size = 7), 
         legend.title = element_text(size = 7))
   
@@ -208,7 +209,7 @@ plot_fig3b <- fig3_data %>%
   geom_ribbon(aes(ymax = upper, ymin = lower), alpha = .3) +
   geom_point(aes(shape = group)) +
   annotate(
-    "label", x = 0, y = .4, label = "Relative coverage of city managers", size = 3.5
+    "label", x = 0, y = .4, label = "Relative coverage of city managers", size = 4.5 
   ) +
   coord_cartesian(ylim = c(0, .4)) +
   labs(
@@ -247,7 +248,7 @@ plot_fig3c <- fig3_data %>%
   geom_ribbon(aes(ymax = upper, ymin = lower), alpha = .3) +
   geom_point(aes(shape = group)) +
   annotate(
-    "label", x = 0, y = .5, label = "Relative coverage of city council", size = 3.5
+    "label", x = 0, y = .5, label = "Relative coverage of city council", size = 4.5 
   ) +
   coord_cartesian(ylim = c(0.1, 0.5)) +
   labs(
@@ -284,7 +285,7 @@ plot_fig3d <- fig3_data %>%
   geom_ribbon(aes(ymax = upper, ymin = lower), alpha = .3) +
   geom_point(aes(shape = group)) +
   annotate(
-    "label", x = 0, y = .9, label = "Coverage of mayor relative to city council", size = 3.5
+    "label", x = 0, y = .9, label = "Coverage of mayor relative to city council", size = 4.5 
   ) +
   coord_cartesian(ylim = c(0.4, 0.9)) +
   labs(
@@ -313,7 +314,7 @@ ggsave(
   here('3_docs', 'fig', 'replicated', 'Fig3.png'),
   plot_fig3, 
   width = 8,
-  height = 8,
+  height = 6,
   units = 'in',
   dpi = 500
 )
