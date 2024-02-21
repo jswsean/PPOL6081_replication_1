@@ -1,0 +1,315 @@
+---
+title: "Replicating 'How Newspapers Reveal Political Power'"
+subtitle: "Adapted from Ban et al. (2019)"
+author: "Sean Hambali"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: simple
+include-in-header: 
+  - text: |
+      <style type = "text/css">
+      ul li ul li {
+        font-size: 0.7em;
+      }
+      </style>
+execute: 
+  echo: false 
+  warning: false 
+  message: false
+---
+
+```{r}
+#| label: setup
+
+# Load the required libraries
+library(here)
+```
+
+```{r}
+#| label: copy_replication_files
+
+# List all files in the fig/replicated and tab/replicated folder
+img_replicated_list <- list.files(
+  here('3_docs', 'fig', 'replicated')
+)
+
+tab_replicated_list <- list.files(
+  here('3_docs', 'tab', 'replicated')
+)
+
+# Move the files to the folder 
+for (file in img_replicated_list) {
+  file.copy(
+    from = here('3_docs', 'fig', 'replicated', file),
+    to = here('3_docs', 'presentation', file),
+    overwrite = TRUE
+  )
+}
+
+for (file in tab_replicated_list) {
+  file.copy(
+    from = here('3_docs', 'tab', 'replicated', file),
+    to = here('3_docs', 'presentation', file),
+    overwrite = TRUE
+  )
+}
+
+```
+
+
+# Introduction
+
+## Motivation
+
+:::{.incremental}
+
+* How to measure power?
+  - Difficult to empirically observe power
+* Ban et al. (2019) provides an empirical measure of power via newspaper coverage
+* Main thesis: relative amount of space dedicated to a particular subject 
+measures the *relative* power of that subject. Why?
+* Newsworthiness!
+  - Size/impact of story matters
+  - Prominence of actors also matters
+
+:::
+
+# Methods
+
+## What kind of power?
+
+:::{.incremental}
+
+![](unlimited-power-star-wars.gif){width=30%}
+
+* This paper specifically measures whether, and to what extent, political actors
+and offices possess the resources to influence political process.
+  + Provides *cardinal* measure of power
+  + Caveat 1: Newsworthiness does not necessarily translate to power, e.g. entertainment
+  + Caveat 2: Potential bias from news outlets' ideological preferences
+  + <span style="color:red;">Caveat 3: Does not measure the power of "shadowy" actors</span>
+:::
+
+
+## Data {.smaller}
+
+* Primarily sourced from [Newspapers.com](https://www.newspapers.com/)
+* Stratified sample from 50% of archive
+* Focuses on years 1877-1977
+* Uses OCR tools and `regex` to count occurrences of political actors and offices in newspapers texts 
+
+![](TabA1_original.png){width=70%}
+
+# (Validation) Results
+
+## Validation 1: Valuing congressional committees
+
+* Hypothesis: More powerful congressional committees should get more news coverage.
+* Ban et al. (2019) validates this hypothesis with committee "value" rankings constructed by Groseclose and Stewart (1998)
+
+$$
+\text{Relative Coverage of Committee}_i = \frac{\text{Committee}_i}{\sum^{19}_{i=1} \text{Committee}_i}
+$$
+
+
+
+## Result 1: Coverage vs Groseclose-Stewart rankings {.smaller}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![Original](Fig1_committees_rankings.png)
+:::
+
+::: {.column width="50%"}
+![Replication](Fig1.png)
+:::
+
+::::
+
+
+## Validation 2: Newspaper coverage of House Speakers
+
+Hypothesis: There should be spike in coverage in the periods where 
+senators serve as party leaders
+
+
+## Result 2: Coverage of speakers before, during and after leadership
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![Original](Fig2_leaders_before_after.png)
+:::
+
+::: {.column width="50%"}
+![Replication](Fig2.png)
+:::
+
+::::
+
+
+## Validation 3: Strong vs. weak mayors {.smaller}
+
+* *Strong* mayors (mayor-council): 
+  + Mayor and city council are elected separately
+  + Mayor has broad executive authority
+  
+* *Weak* mayors (council-manager):
+  + City council is the only elected office
+  + Council appoints city manager to oversee executive branch
+  + Mayor has little to no executive authority
+  
+* Hypothesis: Weaker mayor authority upon transition to council-manager setting,
+thus lower mentions in newspapers.
+
+$$
+\hat{Y}_{ijt} = \frac{N_{ijt}}{\sum^{J}_{j=1} N_{ijt}}
+$$
+
+where $j \in \{\text{Mayor}, \text{City Manager}, \text{City Council}\}$, $N$, and $\hat{Y}$ denote mentions and relative proportions, respectively.
+
+
+## Result 3A: Coverage of city offices, before and after reforms
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![Original](Fig3_mayors_new.png)
+:::
+
+::: {.column width="50%"}
+![Replication](Fig3.png)
+:::
+
+::::
+
+
+## Result 3B: Effect of switching from Mayor-Council to Council-Manager
+
+
+![Original](Tab1_original.PNG)
+
+
+
+## Result 3B: Effect of switching from Mayor-Council to Council-Manager
+
+
+![Replication](Tab1.png)
+
+
+## Validation 4: Coverage of Massachussets Executive Council {.smaller}
+
+* Massachussets Executive Council is comprised of eight individuals elected from districts
+* In late 1964, the council was stripped of its statutory powers following corruption and bribery charges
+* Hypothesis: lower newspapers coverage on the Executive Council following the reform 
+
+$$
+\text{EC}_t = \frac{\text{EC}_t}{\text{EC}_t + \text{G}_t}
+$$
+
+where $\text{EC}$ and $\text{G}$ denote mentions of the Executive Council and the Governor in all available Massachussets newspapers, respectively.
+
+## Result 4: Coverage of Massachussets Executive Council
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![Original](Fig4_ma_gov.png)
+:::
+
+::: {.column width="50%"}
+![Replication](Fig4.png)
+:::
+
+::::
+
+
+## Application: Measuring the power of state party committees
+
+* Prediction: State committees are no longer as powerful as they once were
+* Ban et al. (2019) uses newspaper coverage to measure the power of state committees relative to local committees
+
+$$
+\text{Relative Party Mentions}_{it} = \frac{\text{Party}_{it}}{\text{Party}_{it} + \text{Candidates}_{it}}
+$$
+
+
+
+## Result 5: Party Committee Power in 9 U.S. States
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![Original](Fig6_state_power.png)
+:::
+
+::: {.column width="50%"}
+![Replication](Fig5.png)
+:::
+
+::::
+
+
+# A Closer Look at the Replication Exercise
+
+## Differences from the original results
+
+:::{.incremental}
+* Able to replicate all of the main findings 
+* Minor differences in standard errors reported in regression table 3B
+:::
+
+## Replication diagnosis {.smaller}
+
+* The authors could not provide access to the raw newspapers data since they are 
+proprietary data.
+* They only provide cleaned, aggregated term counts across years, states, etc.
+* As such, I wasn't able to replicate the crucial first half of the paper, i.e., pre-processing the text.
+
+![](screenshot_data_interface.png){width=70%}
+
+## Replication diagnosis {.smaller}
+
+* The authors used Stata to pre-process the term counts to generate measures of interest and R to visualize the output
+* I convert all Stata codes to R, posted all codes and output images/tables on [GitHub](https://github.com/jswsean/PPOL6081_replication_1).
+* I find one minor error in their code:
+
+```{r}
+#| eval: false
+#| echo: true
+
+... %>%
+  mutate(
+    # Generate relative proportions
+    rel_mayor_council_total = r_city_council + r_mayor,
+    rel_mayor_council_control_total = r_control_sum_city_council + r_control_sum_mayor,
+    rel_mayor_council = r_mayor / rel_mayor_council_total,
+    rel_mayor_council_control = r_control_sum_mayor / rel_mayor_council_control_total, 
+    
+    # In the original paper, r_mayor was used instead of r_mayor_x
+    rel_mayor_council_total_x = r_city_council_x + r_mayor_x, 
+    rel_mayor_council_x = r_mayor_x / rel_mayor_council_total_x
+  ) %>%
+...
+
+```
+
+
+
+## Possible extensions
+
+:::{.incremental}
+* Possible extensions:
+
+  - Application to the Indonesian case: rapid decentralization in 1998 shifts political power from central government to local government
+  - Possible extension to other mediums, e.g., news broadcast?
+  - Robustness checks to the DiD regression under new approaches by Callaway & Sant'Anna (2020), Chaisemartin & D'Haultfœuille (2020)
+
+* Limitations for extension:
+  - Limited nuance of the power being measured
+  - Limited use in developing country context due to pervasive power of "shadowy" political actors
+  - Limited use of newspapers in modern context, and possible changes to the incentive structure of newspaper outlets
+:::
