@@ -44,7 +44,13 @@ plot_fig2 <- fig2_data %>%
     x = "", 
     y = "Newspaper Mentions"
   ) +
-  coord_cartesian(ylim = c(0, 2500), xlim = c(1.5,2.5))
+  coord_cartesian(ylim = c(0, 2500), xlim = c(1.5,2.5)) +
+  theme(
+    axis.text.x = element_text(size = 14), 
+    axis.text.y = element_text(size = 14), 
+    axis.title.x = element_text(size = 15), 
+    axis.title.y = element_text(size = 15)
+  )
 
 # ============================================================================ #
 # Export plot ----
@@ -55,7 +61,7 @@ ggsave(
   here('3_docs', 'fig', 'replicated', 'Fig2.png'),
   plot_fig2,
   width = 8, 
-  height = 6.5, 
+  height = 6, 
   units = "in",
-  dpi = 1000
+  dpi = 500
 )
