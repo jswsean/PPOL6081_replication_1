@@ -81,9 +81,6 @@ measures the *relative* power of that subject. Why?
 ## What kind of power?
 
 :::{.incremental}
-
-![](unlimited-power-star-wars.gif){width=30%}
-
 * This paper specifically measures whether, and to what extent, political actors
 and offices possess the resources to influence political process.
   + Provides *cardinal* measure of power
