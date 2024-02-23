@@ -9,5 +9,5 @@
 *.dta
 
 # Specific files
-/1_raw/city_manager_dates.txt
+*.txt
 
