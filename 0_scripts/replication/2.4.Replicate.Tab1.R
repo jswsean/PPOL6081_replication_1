@@ -111,10 +111,10 @@ model_4 = feols(
 var_dict = c("city_manager_govtTRUE" = "Council-manager government form",
              "year" = "Year", 
              "state_city" = "City",
-             "r_mayor" = "Rel. Coverage of Mayor", 
-             "r_city_manager" = "Rel. Coverage of City Manager", 
-             "r_mayor_x" = "Rel. Coverage of Mayor", 
-             "r_city_manager_x" = "Rel. Coverage of City Manager")
+             "r_mayor" = "Rel. Coverage \n of Mayor", 
+             "r_city_manager" = "Rel. Coverage \n of City Manager", 
+             "r_mayor_x" = "Rel. Coverage \n of Mayor", 
+             "r_city_manager_x" = "Rel. Coverage \n of City Manager")
 
 # Export reg table to .PNG
 etable(
@@ -130,3 +130,20 @@ etable(
   se.below = TRUE
 )
 
+# Export reg table to .tex format
+reg_results <- etable(
+  model_1, model_2, model_3, model_4, 
+  headers = list(":_:" = list("All Mentions" = 2, "Using City Name Filter" = 2)),
+  tex = TRUE,
+  digits = 2,
+  digits.stats = 2,
+  drop = "Const",
+  dict = var_dict,
+  style.tex = style.tex("aer"),
+  se.below = TRUE
+)
+
+writeLines(
+  reg_results,
+  con = here('3_docs', 'tab', 'replicated', 'Tab1.tex')
+)
